@@ -1,0 +1,8 @@
+/sample/extension/output/
+**/build/
+**/gradlew
+**/gradlew.bat
+**/.gradle/
+**/gradle/
+**/.idea/
+*.iml
