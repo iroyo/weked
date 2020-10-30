@@ -12,4 +12,4 @@ pluginManagement {
 }
 
 include("kotlin-webextensions")
-include("sample")
+include("sample-playground")

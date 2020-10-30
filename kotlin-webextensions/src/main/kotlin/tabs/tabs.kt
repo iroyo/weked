@@ -15,7 +15,6 @@ var TabQuery.shareMode: ShareMode?
         }
     }
 
-
 var TabQuery.windowMode: WindowMode?
     get() = WindowMode.build(windowType)
     set(value) {
