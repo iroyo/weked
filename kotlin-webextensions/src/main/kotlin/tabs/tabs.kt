@@ -31,9 +31,21 @@ var TabQuery.loading: Boolean?
         }
     }
 
+fun getCurrentTab() = browser.tabs.getCurrent()
+
+fun getTab(id: Int) = browser.tabs.get(id)
+
+fun removeTabs(vararg tabIds: Int) = browser.tabs.remove(*tabIds)
+
+fun hideTabs(vararg tabIds: Int) = browser.tabs.hide(*tabIds)
+
+fun showTabs(vararg tabIds: Int) = browser.tabs.show(*tabIds)
+
 fun queryTabs(block: TabQuery.() -> Unit = {}) = browser.tabs.query(jsObject<TabQuery>().apply(block))
 
 fun createTabs(block: TabProperties.() -> Unit = {}) = browser.tabs.create(jsObject<TabProperties>().apply(block))
+
+fun duplicateTab(id: Int, block: TabDuplicate.() -> Unit = {}) = browser.tabs.duplicate(id, jsObject<TabDuplicate>().apply(block))
 
 external class Tabs {
 
@@ -41,12 +53,16 @@ external class Tabs {
 
     fun show(vararg tabIds: Int)
 
-    fun remove(vararg tabIds: Int): Promise<Any>
+    fun remove(vararg tabIds: Int): Promise<Unit>
+
+    fun getCurrent(): Promise<Tab?>
 
     fun get(id: Int): Promise<Tab>
 
     fun query(query: TabQuery): Promise<Array<Tab>>
 
-    fun create(properties: TabProperties): Promise<Tab>
+    fun create(properties: TabProperties): Promise<Tab?>
+
+    fun duplicate(id: Int, duplicateProperties: TabDuplicate?): Promise<Tab?>
 
 }

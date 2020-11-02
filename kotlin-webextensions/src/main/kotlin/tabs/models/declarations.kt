@@ -74,3 +74,8 @@ external interface TabProperties : TabData, TabState {
     var openerTabId: Int?
     var cookieStoreId: String?
 }
+
+external interface TabDuplicate {
+    var index: Int?
+    var active: Boolean?
+}
