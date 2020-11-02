@@ -15,24 +15,32 @@ fun getContainer(cookieStoreId: String) = browser.contextualIdentities.get(cooki
 /**
  * Retrieves all contextual identities
  */
-fun queryContainers(name: String? = null) = browser.contextualIdentities.query(ContainerQuery().apply {
+fun queryContainers(name: String? = null) = browser.contextualIdentities.query(jsObject<ContainerName>().apply {
     this.name = name
 })
 
 /**
  * Creates a contextual identity with the given data.
  */
-fun createContainer(name: String, color: Color, icon: Icon) = browser.contextualIdentities.create(ContainerData().apply {
+fun createContainer(
+    name: String,
+    color: Color,
+    icon: Icon,
+) = browser.contextualIdentities.create(jsObject<ContainerData>().apply {
     this.name = name
     this.icon = icon.name.toLowerCase()
     this.color = color.name.toLowerCase()
 })
 
-
 /**
  * Updates a contextual identity with the given data.
  */
-fun updateContainer(id: String, name: String? = null, color: Color? = null, icon: Icon? = null) = browser.contextualIdentities.update(id, ContainerData().apply {
+fun updateContainer(
+    id: String,
+    name: String? = null,
+    color: Color? = null,
+    icon: Icon? = null
+) = browser.contextualIdentities.update(id, jsObject<ContainerData>().apply {
     this.name = name
     this.icon = icon?.name?.toLowerCase()
     this.color = color?.name?.toLowerCase()
@@ -66,8 +74,5 @@ external interface ContainerData : ContainerName {
     var color: String?
     var icon: String?
 }
-
-fun ContainerQuery(): ContainerName = jsObject()
-fun ContainerData(): ContainerData = jsObject()
 
 
