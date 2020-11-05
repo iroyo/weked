@@ -1,6 +1,9 @@
 package tabs
 
-external interface MutedInfo: Mutable {
+import window.models.WindowMode
+
+
+external interface MutedInfo : Mutable {
     val reason: String?
     val extensionId: String?
 }
@@ -9,11 +12,11 @@ external interface TabDuplicate : Indexable {
     var active: Boolean?
 }
 
-external interface TabProperties : Common {
+external interface TabCreate : Common {
     var openInReaderMode: Boolean?
 }
 
-external interface TabUpdate :  State, Mutable {
+external interface TabUpdate : State, Mutable {
     var url: String?
     var highlighted: Boolean?
     var loadReplace: Boolean?

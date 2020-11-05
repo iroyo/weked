@@ -2,25 +2,44 @@ package tabs
 
 import browser
 import jsObject
+import tabs.models.MutedReason
+import tabs.models.ShareMode
+import window.models.WindowMode
 
-fun getCurrentTab() = browser.tabs.getCurrent()
+internal val api = browser.tabs
 
-fun getTab(id: Int) = browser.tabs.get(id)
 
-fun removeTabs(vararg tabIds: Int) = browser.tabs.remove(*tabIds)
+fun printCurrentTab() = api.print()
 
-fun hideTabs(vararg tabIds: Int) = browser.tabs.hide(*tabIds)
+fun printPreviewCurrentTab() = api.printPreview()
 
-fun showTabs(vararg tabIds: Int) = browser.tabs.show(*tabIds)
+fun getCurrentTab() = api.getCurrent()
 
-fun queryTabs(block: TabQuery.() -> Unit = {}) = browser.tabs.query(jsObject<TabQuery>().apply(block))
+fun getTab(id: Int) = api.get(id)
 
-fun createTabs(block: TabProperties.() -> Unit = {}) = browser.tabs.create(jsObject<TabProperties>().apply(block))
+fun removeTabs(vararg tabIds: Int) = api.remove(*tabIds)
 
-fun duplicateTab(id: Int, block: TabDuplicate.() -> Unit = {}) = browser.tabs.duplicate(id, jsObject<TabDuplicate>().apply(block))
+fun hideTabs(vararg tabIds: Int) = api.hide(*tabIds)
 
-/*
-var SharingType.shareMode: ShareMode
+fun showTabs(vararg tabIds: Int) = api.show(*tabIds)
+
+fun queryTabs(block: TabQuery.() -> Unit = {}) = api.query(jsObject<TabQuery>().apply(block))
+
+fun createTab(block: TabCreate.() -> Unit = {}) = api.create(jsObject<TabCreate>().apply(block))
+
+fun updateTab(id: Int, block: TabUpdate.() -> Unit = {}) = api.update(id, jsObject<TabUpdate>().apply(block))
+
+fun cloneTab(id: Int, block: TabDuplicate.() -> Unit = {}) = api.duplicate(id, jsObject<TabDuplicate>().apply(block))
+
+
+var TabQuery.windowMode: WindowMode
+    get() = WindowMode.build(windowType) ?: WindowMode.NORMAL
+    set(value) {
+
+        windowType = value.value
+    }
+
+var TabQuery.shareMode: ShareMode
     get() = ShareMode.build(screen) ?: ShareMode.Deactivated
     set(value) {
         screen = when (value) {
@@ -29,13 +48,7 @@ var SharingType.shareMode: ShareMode
         }
     }
 
-var WindowType.windowMode: WindowMode
-    get() = WindowMode.build(windowType) ?: WindowMode.NORMAL
-    set(value) {
-        windowType = value.value
-    }
-
-var StatusType.loading: Boolean
+var BaseTab.loading: Boolean
     get() = status?.let { it == "loading" } ?: true
     set(value) {
         status = value.let {
@@ -43,4 +56,15 @@ var StatusType.loading: Boolean
         }
     }
 
- */
+val Tab.muted
+    get() = mutedInfo?.muted ?: false
+
+val Tab.mutedReason
+    get() = mutedInfo?.let {
+        when (it.reason) {
+            "user" -> MutedReason.User
+            "capture" -> MutedReason.Capture
+            "extension" -> MutedReason.Extension(it.extensionId)
+            else -> null
+        }
+    }

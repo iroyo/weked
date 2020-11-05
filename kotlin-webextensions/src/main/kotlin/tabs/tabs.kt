@@ -26,7 +26,7 @@ external class Tabs {
 
     fun query(query: TabQuery): Promise<Array<Tab>>
 
-    fun create(properties: TabProperties): Promise<Tab?>
+    fun create(data: TabCreate): Promise<Tab?>
 
     fun update(id: Int, data: TabUpdate?): Promise<Tab?>
 
