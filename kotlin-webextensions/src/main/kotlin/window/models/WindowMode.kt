@@ -1,4 +1,4 @@
-package tabs.models
+package window.models
 
 enum class WindowMode(val value: String) {
     NORMAL("normal"),
