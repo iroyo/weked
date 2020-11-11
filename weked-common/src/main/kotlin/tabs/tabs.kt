@@ -10,7 +10,7 @@ external class Tabs {
 
     fun print()
 
-    fun printPreview(): Promise<Unit>
+    fun printPreview(): Promise<Any>
 
     fun hide(vararg tabIds: Int)
 
@@ -22,7 +22,7 @@ external class Tabs {
 
     fun get(id: Int): Promise<Tab>
 
-    fun remove(vararg tabIds: Int): Promise<Unit>
+    fun remove(vararg tabIds: Int): Promise<Any>
 
     fun query(query: TabQuery): Promise<Array<Tab>>
 

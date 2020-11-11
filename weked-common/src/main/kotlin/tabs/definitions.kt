@@ -1,7 +1,5 @@
 package tabs
 
-import window.models.WindowMode
-
 
 external interface MutedInfo : Mutable {
     val reason: String?

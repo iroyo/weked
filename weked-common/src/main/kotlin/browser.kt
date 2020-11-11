@@ -1,4 +1,3 @@
-import containers.Containers
 import tabs.Tabs
 
 /**
@@ -9,7 +8,6 @@ import tabs.Tabs
 
 external val browser: Browser
 
-external class Browser {
-    val contextualIdentities: Containers
+open external class Browser {
     val tabs: Tabs
 }

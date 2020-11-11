@@ -1,4 +1,4 @@
-rootProject.name = "webext-kotlin-declarations"
+rootProject.name = "weked"
 
 pluginManagement {
     repositories {
@@ -11,5 +11,6 @@ pluginManagement {
     }
 }
 
-include("kotlin-webextensions")
+include("weked-common")
+include("weked-firefox")
 include("sample-playground")

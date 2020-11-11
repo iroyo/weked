@@ -1,7 +1,3 @@
-plugins {
-    kotlin("js") version "1.4.10" apply false
-}
-
 allprojects {
     //manage common setting and dependencies
     repositories {
@@ -14,6 +10,6 @@ allprojects {
 }
 
 subprojects {
-    group = "dev.iroyo"
-    version = "0.0.1"
+    group = "dev.iroyo.weked"
+    version = "0.0.3-dev"
 }

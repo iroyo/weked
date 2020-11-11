@@ -1,8 +1,8 @@
 package containers
 
-import browser
 import containers.models.Color
 import containers.models.Icon
+import firefox
 import jsObject
 import kotlin.js.Promise
 
@@ -10,12 +10,12 @@ import kotlin.js.Promise
 /**
  * Retrieves information about a single contextual identity.
  */
-fun getContainer(cookieStoreId: String) = browser.contextualIdentities.get(cookieStoreId)
+fun getContainer(cookieStoreId: String) = firefox.contextualIdentities.get(cookieStoreId)
 
 /**
  * Retrieves all contextual identities
  */
-fun queryContainers(name: String? = null) = browser.contextualIdentities.query(jsObject<ContainerName>().apply {
+fun queryContainers(name: String? = null) = firefox.contextualIdentities.query(jsObject<ContainerName>().apply {
     this.name = name
 })
 
@@ -26,7 +26,7 @@ fun createContainer(
     name: String,
     color: Color,
     icon: Icon,
-) = browser.contextualIdentities.create(jsObject<ContainerData>().apply {
+) = firefox.contextualIdentities.create(jsObject<ContainerData>().apply {
     this.name = name
     this.icon = icon.name.toLowerCase()
     this.color = color.name.toLowerCase()
@@ -40,7 +40,7 @@ fun updateContainer(
     name: String? = null,
     color: Color? = null,
     icon: Icon? = null
-) = browser.contextualIdentities.update(id, jsObject<ContainerData>().apply {
+) = firefox.contextualIdentities.update(id, jsObject<ContainerData>().apply {
     this.name = name
     this.icon = icon?.name?.toLowerCase()
     this.color = color?.name?.toLowerCase()
