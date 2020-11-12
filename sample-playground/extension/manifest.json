@@ -1,19 +1,25 @@
 {
-    "manifest_version": 2,
-    "name": "Test Playground",
-    "version": "1.0",
-    "description": "TBD",
-    "icons": {
-        "48": "icons/beasts-48.png"
-    },
-    "permissions": [
-        "tabs",
-        "tabHide",
-        "contextualIdentities"
-    ],
-    "browser_action": {
-        "default_icon": "icons/beasts-48.png",
-        "default_title": "Test Playground",
-        "default_popup": "output/index.html"
-    }
+  "manifest_version": 2,
+  "name": "Test Playground",
+  "version": "1.0",
+  "description": "TBD",
+  "icons": {
+    "48": "icons/beasts-48.png"
+  },
+  "permissions": [
+    "tabs",
+    "tabHide",
+    "contextualIdentities"
+  ],
+  "browser_action": {
+    "default_icon": "icons/beasts-48.png",
+    "default_title": "Test Playground",
+    "default_popup": "output/index.html"
+  },
+  "sidebar_action": {
+    "default_title": "My sidebar",
+    "default_panel": "output/sidebar.html",
+    "default_icon": "icons/beasts-48.png",
+    "open_at_install": false
+  }
 }
