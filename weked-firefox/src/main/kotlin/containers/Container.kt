@@ -12,7 +12,7 @@ data class Container(
     constructor(contextualIdentity: ContextualIdentity): this(
         contextualIdentity.cookieStoreId,
         contextualIdentity.name,
-        Color.valueOf(contextualIdentity.color),
-        Icon.valueOf(contextualIdentity.icon)
+        Color.valueOf(contextualIdentity.color.toUpperCase()),
+        Icon.valueOf(contextualIdentity.icon.toUpperCase())
     )
 }
