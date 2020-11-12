@@ -11,3 +11,11 @@ internal external val browser: Browser
 open external class Browser {
     val tabs: Tabs
 }
+
+external interface Listener<in T> {
+    fun addListener(listener: T)
+
+    fun removeListener(listener: T)
+
+    fun hasListener(listener: T): Boolean
+}

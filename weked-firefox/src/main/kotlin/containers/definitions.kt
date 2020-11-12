@@ -17,3 +17,7 @@ external interface ContainerData : ContainerName {
     var color: String?
     var icon: String?
 }
+
+external interface Result {
+    val contextualIdentity: ContextualIdentity
+}

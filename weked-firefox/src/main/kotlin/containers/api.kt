@@ -1,11 +1,45 @@
 package containers
 
+import Listener
 import browser
 import containers.models.Color
 import containers.models.Icon
 import jsObject
 
 internal val api = browser.contextualIdentities
+
+internal class CustomListener(private val event: Listener<(Result) -> Unit>) : Listener<(Container) -> Unit> {
+    override fun addListener(listener: (Container) -> Unit) = event.addListener {
+        listener(Container(it.contextualIdentity))
+    }
+
+    override fun removeListener(listener: (Container) -> Unit) = event.removeListener {
+        listener(Container(it.contextualIdentity))
+    }
+
+    override fun hasListener(listener: (Container) -> Unit) = event.hasListener {
+        listener(Container(it.contextualIdentity))
+    }
+}
+
+//region EVENTS: container events
+
+/**
+ * Fired when a container is updated.
+ */
+val onContainerUpdated: Listener<(Container) -> Unit> = CustomListener(api.onUpdated)
+
+/**
+ * Fired when a new container is created.
+ */
+val onContainerCreated: Listener<(Container) -> Unit> = CustomListener(api.onCreated)
+
+/**
+ * Fired when a container is removed.
+ */
+val onContainerRemoved: Listener<(Container) -> Unit> = CustomListener(api.onRemoved)
+
+//endregion
 
 /**
  * Retrieves information about a single contextual identity.
