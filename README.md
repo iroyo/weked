@@ -1,2 +1,2 @@
 # WEKED
-### Web Extensions Kotlin External Declarations
+**W**eb **E**xtensions **K**otlin **E**xternal **D**eclarations
