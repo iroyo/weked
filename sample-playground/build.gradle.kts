@@ -9,7 +9,7 @@ repositories {
 dependencies {
     implementation(kotlin("stdlib-js"))
     implementation("org.jetbrains.kotlinx:kotlinx-html-js:0.7.2")
-    implementation(project(":weked-common"))
+    implementation(project(":weked-firefox"))
 }
 
 kotlin {

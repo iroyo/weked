@@ -6,7 +6,7 @@ import tabs.Tabs
  * https://github.com/mozilla/gecko-dev/tree/master/toolkit/components/extensions/schemas
  */
 
-external val browser: Browser
+internal external val browser: Browser
 
 open external class Browser {
     val tabs: Tabs

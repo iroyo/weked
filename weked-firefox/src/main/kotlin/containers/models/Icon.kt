@@ -13,5 +13,7 @@ enum class Icon {
     GIFT,
     PET,
     TREE,
-    VACATION,
+    VACATION;
+
+    val path = "resource://usercontext-content/${this.name.toLowerCase()}.svg"
 }
