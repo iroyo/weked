@@ -1,3 +1,4 @@
+import storage.Storage
 import tabs.Tabs
 
 /**
@@ -10,6 +11,7 @@ internal external val browser: Browser
 
 open external class Browser {
     val tabs: Tabs
+    val storage: Storage
 }
 
 external interface Listener<in T> {
