@@ -1,9 +1,14 @@
 package window.models
 
-enum class WindowState {
+enum class WindowNormalState {
     NORMAL,
+    DOCKED,
+}
+
+enum class WindowState {
     MINIMIZED,
     MAXIMIZED,
-    FULLSCREEN,
-    DOCKED,
+    FULLSCREEN;
+
+    val string get() = name.toLowerCase()
 }

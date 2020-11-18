@@ -3,7 +3,9 @@ package window
 import browser
 import jsObject
 import window.models.WindowMode
+import window.models.WindowNormalState
 import window.models.WindowState
+import window.models.WindowState.*
 
 private val api = browser.windows
 
@@ -35,18 +37,52 @@ fun getAllWindows(vararg windowMode: WindowMode) = api.getAll(jsObject<GetProper
 })
 
 /**
+ * Gets all the windows that match the [WindowMode].
+ */
+val getAllWindows get() = getAllWindows(WindowMode.NORMAL, WindowMode.PANEL, WindowMode.POPUP)
+
+/**
  * Creates (opens) a new browser with any optional sizing, position or default URL provided.
  */
-private fun createWindow(windowState: WindowState, block: WindowCommon.() -> Unit, vararg url: String) = api.create(jsObject<CreateProperties>()
+private fun createWindow(state: String, block: WindowCommonCreate.() -> Unit, vararg url: String) =
+    api.create(jsObject<CreateProperties>()
+        .apply(block)
+        .apply {
+            this.url = url
+            this.state = state
+        }
+    )
+
+fun createWindow(
+    vararg url: String,
+    windowState: WindowNormalState = WindowNormalState.NORMAL,
+    block: WindowCommonCreate.() -> Unit = {}
+) = createWindow(windowState.name.toLowerCase(), block, *url)
+
+fun createMinimizedWindow(vararg url: String, block: WindowData.() -> Unit = {}) =
+    createWindow(MINIMIZED.string, block, *url)
+
+fun createMaximizedWindow(vararg url: String, block: WindowData.() -> Unit = {}) =
+    createWindow(MAXIMIZED.string, block, *url)
+
+fun createFullscreenWindow(vararg url: String, block: WindowData.() -> Unit = {}) =
+    createWindow(FULLSCREEN.string, block, *url)
+
+private fun updateWindow(id: Int, state: String?, block: WindowCommonUpdate.() -> Unit) = api.update(id, jsObject<UpdateProperties>()
     .apply(block)
-    .apply {
-        this.url = url
-        this.state = windowState.name.toLowerCase()
-    }
+    .apply { state?.let { this.state = it } }
 )
 
-fun createWindow(vararg url: String, block: WindowCommon.() -> Unit = {}) = createWindow(WindowState.NORMAL, block, *url)
+/**
+ * Updates the properties of a window. Specify only the properties that you want to change; unspecified properties will be left unchanged.
+ * @throws InvalidWindowId when the id provided does not much any windowId
+ */
+fun updateWindow(windowId: Int, state: WindowNormalState? = null, block: WindowCommonUpdate.() -> Unit = {}) =
+    updateWindow(windowId, state?.name?.toLowerCase(), block)
 
-fun createMinimizedWindow(vararg url: String, block: WindowData.() -> Unit = {}) = createWindow(WindowState.MINIMIZED, block, *url)
-fun createMaximizedWindow(vararg url: String, block: WindowData.() -> Unit = {}) = createWindow(WindowState.MAXIMIZED, block, *url)
-fun createFullscreenWindow(vararg url: String, block: WindowData.() -> Unit = {}) = createWindow(WindowState.FULLSCREEN, block, *url)
+/**
+ * Updates the properties of a window. Specify only the properties that you want to change; unspecified properties will be left unchanged.
+ * @throws InvalidWindowId when the id provided does not much any windowId
+ */
+fun updateWindow(windowId: Int, state: WindowState, block: WindowUpdate.() -> Unit = {}) =
+    updateWindow(windowId, state.name.toLowerCase(), block)

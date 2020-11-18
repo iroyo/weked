@@ -27,15 +27,20 @@ external interface WindowUrls {
     var url: Url?
 }
 
-external interface WindowCommon : WindowData, WindowDimensions
+external interface WindowCommonCreate : WindowData, WindowDimensions
 
-external interface CreateProperties : WindowCommon, WindowUrls {
+external interface CreateProperties : WindowCommonCreate, WindowUrls {
     var state: String?
 }
 
-external interface UpdateProperties : WindowDimensions {
-    var state: String?
+external interface WindowUpdate {
     var focused: Boolean?
     var drawAttention: Boolean?
     var titlePreface: String?
+}
+
+external interface WindowCommonUpdate : WindowUpdate, WindowDimensions
+
+external interface UpdateProperties : WindowCommonUpdate {
+    var state: String?
 }

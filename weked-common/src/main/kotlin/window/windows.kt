@@ -15,6 +15,6 @@ external class Windows {
 
     fun create(properties: CreateProperties? = definedExternally): Promise<Window>
 
-    fun update(properties: UpdateProperties? = definedExternally): Promise<Window>
+    fun update(windowId: Int, properties: UpdateProperties? = definedExternally): Promise<Window>
 
 }
