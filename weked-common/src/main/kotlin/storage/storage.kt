@@ -1,5 +1,6 @@
 package storage
 
+import Listener
 import kotlin.js.Promise
 
 @Suppress("NOTHING_TO_INLINE")
@@ -10,15 +11,21 @@ class Items {
     }
 }
 
+@Suppress("NOTHING_TO_INLINE")
+class Changes {
+    inline operator fun get(key: String): StorageChange = asDynamic()[key]
+}
+
+external interface StorageChange {
+    var oldValue: Any
+    var newValue: Any
+}
+
 external class StorageArea {
 
-    fun remove(key: String): Promise<Any>
+    fun get(key: Array<String>?): Promise<Items>
 
     fun remove(keys: Array<String>): Promise<Any>
-
-    fun get(key: String?): Promise<Items>
-
-    fun get(key: Array<String>): Promise<Items>
 
     fun set(items: Items): Promise<Any>
 
@@ -27,6 +34,8 @@ external class StorageArea {
 }
 
 external class Storage {
+
+    val onChanged: Listener<(Changes, String) -> Unit>
 
     var sync: StorageArea
 
