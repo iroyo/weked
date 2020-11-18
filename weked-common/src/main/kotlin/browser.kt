@@ -1,5 +1,6 @@
 import storage.Storage
 import tabs.Tabs
+import window.Windows
 
 /**
  * Firefox API schemas
@@ -12,6 +13,7 @@ internal external val browser: Browser
 open external class Browser {
     val tabs: Tabs
     val storage: Storage
+    val windows: Windows
 }
 
 external interface Listener<in T> {

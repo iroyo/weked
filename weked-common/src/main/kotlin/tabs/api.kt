@@ -32,10 +32,9 @@ fun cloneTab(id: Int, block: TabDuplicate.() -> Unit = {}) = api.duplicate(id, j
 
 
 var TabQuery.windowMode: WindowMode
-    get() = WindowMode.build(windowType) ?: WindowMode.NORMAL
+    get() = windowType?.let { WindowMode.valueOf(it.toUpperCase()) } ?: WindowMode.NORMAL
     set(value) {
-
-        windowType = value.value
+        windowType = value.name.toLowerCase()
     }
 
 var TabQuery.shareMode: ShareMode

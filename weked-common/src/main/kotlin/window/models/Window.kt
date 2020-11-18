@@ -13,7 +13,7 @@ external interface Window {
     val alwaysOnTop: Boolean
     val type: String?
     val state: String?
-    val sessionId: String?
     val title: String?
-    val tabs: Array<Tab>
+    val sessionId: String?
+    val tabs: Array<Tab>?
 }
