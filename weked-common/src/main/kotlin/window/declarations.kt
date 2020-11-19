@@ -1,5 +1,7 @@
 package window
 
+import tabs.Tab
+
 typealias Url = Any
 
 external interface GetProperties {
@@ -7,40 +9,23 @@ external interface GetProperties {
     var windowTypes: Array<String>?
 }
 
-external interface WindowDimensions {
-    var top: Int?
-    var left: Int?
-    var width: Int?
-    var height: Int?
+external interface EventFilter {
+    var windowType: Array<String>?
 }
 
-external interface WindowData {
-    var tabId: Int?
-    var incognito: Boolean?
-    var type: String?
-    var titlePreface: String?
-    var cookieStoreId: String?
-    var allowScriptsToClose: Boolean?
+external interface CreateProperties : WindowCommonCreate, WindowUrls
+
+external interface UpdateProperties : WindowCommonUpdate
+
+external interface WindowBase : WindowDimensions {
+    val id: Int?
+    val focused: Boolean
+    val incognito: Boolean
+    val alwaysOnTop: Boolean
+    val title: String?
+    val sessionId: String?
 }
 
-external interface WindowUrls {
-    var url: Url?
-}
-
-external interface WindowCommonCreate : WindowData, WindowDimensions
-
-external interface CreateProperties : WindowCommonCreate, WindowUrls {
-    var state: String?
-}
-
-external interface WindowUpdate {
-    var focused: Boolean?
-    var drawAttention: Boolean?
-    var titlePreface: String?
-}
-
-external interface WindowCommonUpdate : WindowUpdate, WindowDimensions
-
-external interface UpdateProperties : WindowCommonUpdate {
-    var state: String?
+external interface Window: WindowBase, WindowState, WindowType {
+    val tabs: Array<Tab>?
 }

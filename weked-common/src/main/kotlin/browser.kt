@@ -23,3 +23,11 @@ external interface Listener<in T> {
 
     fun hasListener(listener: T): Boolean
 }
+
+external interface FilterableListener<in T, in F> {
+    fun addListener(listener: T, filter: F)
+
+    fun removeListener(listener: T)
+
+    fun hasListener(listener: T): Boolean
+}
