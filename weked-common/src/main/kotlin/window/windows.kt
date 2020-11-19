@@ -17,4 +17,6 @@ external class Windows {
 
     fun update(windowId: Int, properties: UpdateProperties? = definedExternally): Promise<Window>
 
+    fun remove(windowId: Int): Promise<Any>
+
 }

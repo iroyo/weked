@@ -2,6 +2,7 @@ package window
 
 import browser
 import jsObject
+import window.models.CreateType
 import window.models.WindowMode
 import window.models.WindowNormalState
 import window.models.WindowState
@@ -12,6 +13,12 @@ private val api = browser.windows
 private fun createGetProperties(populateTabs: Boolean) = jsObject<GetProperties>().apply {
     populate = populateTabs
 }
+
+var WindowData.windowMode: CreateType
+    get() = type?.let { CreateType.valueOf(it.toUpperCase()) } ?: CreateType.NORMAL
+    set(value) {
+        type = value.name.toLowerCase()
+    }
 
 /**
  * Gets details about a window.
@@ -68,10 +75,11 @@ fun createMaximizedWindow(vararg url: String, block: WindowData.() -> Unit = {})
 fun createFullscreenWindow(vararg url: String, block: WindowData.() -> Unit = {}) =
     createWindow(FULLSCREEN.string, block, *url)
 
-private fun updateWindow(id: Int, state: String?, block: WindowCommonUpdate.() -> Unit) = api.update(id, jsObject<UpdateProperties>()
-    .apply(block)
-    .apply { state?.let { this.state = it } }
-)
+private fun updateWindow(id: Int, state: String?, block: WindowCommonUpdate.() -> Unit) =
+    api.update(id, jsObject<UpdateProperties>()
+        .apply(block)
+        .apply { state?.let { this.state = it } }
+    )
 
 /**
  * Updates the properties of a window. Specify only the properties that you want to change; unspecified properties will be left unchanged.
@@ -86,3 +94,8 @@ fun updateWindow(windowId: Int, state: WindowNormalState? = null, block: WindowC
  */
 fun updateWindow(windowId: Int, state: WindowState, block: WindowUpdate.() -> Unit = {}) =
     updateWindow(windowId, state.name.toLowerCase(), block)
+
+/**
+ * Removes (closes) a window, and all the tabs inside it.
+ */
+fun removeWindow(windowId: Int) = api.remove(windowId)
