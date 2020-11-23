@@ -1,15 +1,15 @@
-package window
+package windows
 
-import FilterableListener
+import Listener
 import kotlin.js.Promise
 
 external class Windows {
 
-    val onCreated: FilterableListener<(Window) -> Unit, EventFilter>
+    val onCreated: Listener<(Window) -> Unit>
 
-    val onRemoved: FilterableListener<(Int) -> Unit, EventFilter>
+    val onRemoved: Listener<(Int) -> Unit>
 
-    val onFocusChanged: FilterableListener<(Int) -> Unit, EventFilter>
+    val onFocusChanged: Listener<(Int) -> Unit>
 
     fun get(windowId: Int, properties: GetProperties? = definedExternally): Promise<Window>
 

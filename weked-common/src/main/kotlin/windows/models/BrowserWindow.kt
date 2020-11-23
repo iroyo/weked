@@ -1,9 +1,9 @@
-package window.models
+package windows.models
 
 import tabs.Tab
-import window.Window
-import window.WindowBase
-import window.windowType
+import windows.Window
+import windows.WindowBase
+import windows.windowType
 
 class BrowserWindow(window: Window): WindowBase by window {
 

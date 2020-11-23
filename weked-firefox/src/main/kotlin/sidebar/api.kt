@@ -32,17 +32,17 @@ fun isSidebarOpen(id: Int? = null) = api.isOpen(jsObject<WindowId>().apply {
  * @throws InvalidTabId when tabId is not found
  * @throws InvalidWindowId when windowId is not found
  */
-fun getSidebarPanel(block: Details.() -> Unit = {})  = api.getPanel(jsObject<Details>().apply(block))
+fun getSidebarPanel(block: Details.() -> Unit = {}) = api.getPanel(jsObject<Details>().apply(block))
 
-fun setSidebarPanel(block: PanelProperties.() -> Unit = {})  = api.setPanel(jsObject<PanelProperties>().apply(block))
+fun setSidebarPanel(block: PanelProperties.() -> Unit = {}) = api.setPanel(jsObject<PanelProperties>().apply(block))
 
 /**
  * Gets the title for this sidebar action
  * @throws InvalidTabId when tabId is not found
  * @throws InvalidWindowId when windowId is not found
  */
-fun getSidebarTitle(block: Details.() -> Unit = {})  = api.getTitle(jsObject<Details>().apply(block))
+fun getSidebarTitle(block: Details.() -> Unit = {}) = api.getTitle(jsObject<Details>().apply(block))
 
-fun setSidebarTitle(block: TitleProperties.() -> Unit = {})  = api.setTitle(jsObject<TitleProperties>().apply(block))
+fun setSidebarTitle(block: TitleProperties.() -> Unit = {}) = api.setTitle(jsObject<TitleProperties>().apply(block))
 
-fun setSidebarIcon(block: IconProperties.() -> Unit = {})  = api.setIcon(jsObject<IconProperties>().apply(block))
+fun setSidebarIcon(block: IconProperties.() -> Unit = {}) = api.setIcon(jsObject<IconProperties>().apply(block))

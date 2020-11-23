@@ -1,8 +1,8 @@
-package window.models
+package windows.models
 
-import window.models.ResizableWindowState.Docked
-import window.models.ResizableWindowState.Normal
-import window.models.UnresizableWindowState.*
+import windows.models.ResizableWindowState.Docked
+import windows.models.ResizableWindowState.Normal
+import windows.models.UnresizableWindowState.*
 
 sealed class WindowState {
     abstract val name: String

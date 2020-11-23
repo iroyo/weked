@@ -1,15 +1,20 @@
-package window
+package windows
 
-import FilterableListener
+import CallbackListener
 import browser
 import jsObject
-import window.models.*
-import window.models.WindowState
+import names
+import windows.models.*
+import windows.models.WindowState
 
 private val api = browser.windows
 
 private fun createGetProperties(populateTabs: Boolean) = jsObject<GetProperties>().apply {
     populate = populateTabs
+}
+
+private fun createEventFilter(windowMode: Array<out WindowMode>) = jsObject<EventFilter>().apply {
+    windowTypes = windowMode.names
 }
 
 var WindowType.windowType: WindowMode
@@ -29,43 +34,18 @@ val onWindowRemoved = api.onRemoved
  */
 val onWindowFocusChanged = api.onFocusChanged
 
-
-class FilterListener : FilterableListener<(BrowserWindow) -> Unit, Array<WindowMode>> {
-
-
-    override fun removeListener(listener: (BrowserWindow) -> Unit) {
-        TODO("Not yet implemented")
-    }
-
-    override fun hasListener(listener: (BrowserWindow) -> Unit): Boolean {
-        TODO("Not yet implemented")
-    }
-
-    fun addListener(filter: Array<WindowMode>, listener: (BrowserWindow) -> Unit) {
-
-    }
-
-    override fun addListener(listener: (BrowserWindow) -> Unit, filter: Array<WindowMode>) {
-        TODO("Not yet implemented")
-    }
-
-}
 /**
  * Fired when a window is created.
  * [BrowserWindow] Details of the window that was created. */
-val onWindowCreated = object : FilterableListener<(BrowserWindow) -> Unit, EventFilter> {
-    override fun addListener(listener: (BrowserWindow) -> Unit, filter: EventFilter) = api.onCreated.addListener(
-        { listener(BrowserWindow(it)) }, filter
-    )
+val onWindowCreated = object : CallbackListener<BrowserWindow> {
 
-    override fun removeListener(listener: (BrowserWindow) -> Unit) = api.onCreated.removeListener {
-        listener(BrowserWindow(it))
-    }
+    private val event = api.onCreated
 
-    override fun hasListener(listener: (BrowserWindow) -> Unit) = api.onCreated.hasListener {
-        listener(BrowserWindow(it))
-    }
+    override fun addListener(listener: (BrowserWindow) -> Unit) = event.addListener { listener(BrowserWindow(it)) }
 
+    override fun removeListener(listener: (BrowserWindow) -> Unit) = event.removeListener { listener(BrowserWindow(it)) }
+
+    override fun hasListener(listener: (BrowserWindow) -> Unit) = event.hasListener { listener(BrowserWindow(it)) }
 }
 
 /**

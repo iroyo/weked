@@ -1,4 +1,4 @@
-package window
+package windows
 
 external interface WindowDimensions {
     var top: Int?

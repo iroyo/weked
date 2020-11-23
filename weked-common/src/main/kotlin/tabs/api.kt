@@ -4,7 +4,7 @@ import browser
 import jsObject
 import tabs.models.MutedReason
 import tabs.models.ShareMode
-import window.models.WindowMode
+import windows.models.WindowMode
 
 internal val api = browser.tabs
 

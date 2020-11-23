@@ -1,4 +1,4 @@
-package window.models
+package windows.models
 
 enum class WindowMode {
     //APP,

@@ -1,4 +1,4 @@
-package window
+package windows
 
 import tabs.Tab
 
@@ -10,7 +10,7 @@ external interface GetProperties {
 }
 
 external interface EventFilter {
-    var windowType: Array<String>?
+    var windowTypes: Array<String>?
 }
 
 external interface CreateProperties : WindowCommonCreate, WindowUrls

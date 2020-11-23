@@ -1,6 +1,6 @@
 import storage.Storage
 import tabs.Tabs
-import window.Windows
+import windows.Windows
 
 /**
  * Firefox API schemas
@@ -14,20 +14,4 @@ open external class Browser {
     val tabs: Tabs
     val storage: Storage
     val windows: Windows
-}
-
-external interface Listener<in T> {
-    fun addListener(listener: T)
-
-    fun removeListener(listener: T)
-
-    fun hasListener(listener: T): Boolean
-}
-
-external interface FilterableListener<in T, in F> {
-    fun addListener(listener: T, filter: F)
-
-    fun removeListener(listener: T)
-
-    fun hasListener(listener: T): Boolean
 }
