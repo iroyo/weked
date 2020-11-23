@@ -14,3 +14,4 @@ pluginManagement {
 include("weked-common")
 include("weked-firefox")
 include("sample-playground")
+include("weked-chrome")
