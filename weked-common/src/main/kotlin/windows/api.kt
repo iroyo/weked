@@ -9,8 +9,9 @@ import windows.models.WindowState
 
 private val api = browser.windows
 
-private fun createGetProperties(populateTabs: Boolean) = jsObject<GetProperties>().apply {
+private fun createGetProperties(populateTabs: Boolean, types: Array<String>? = null) = jsObject<GetProperties>().apply {
     populate = populateTabs
+    if (!windowTypes.isNullOrEmpty()) windowTypes = types
 }
 
 private fun createEventFilter(windowMode: Array<out WindowMode>) = jsObject<EventFilter>().apply {
@@ -70,14 +71,13 @@ fun getLastFocusedWindow(populateTabs: Boolean = false) =
 /**
  * Gets all the windows that match the [WindowMode].
  */
-fun getAllWindows(vararg windowMode: WindowMode) = api.getAll(jsObject<GetProperties>().apply {
-    windowTypes = windowMode.map { it.name.toLowerCase() }.toTypedArray()
-}).then { it.map(::BrowserWindow) }
+fun getAllWindows(populateTabs: Boolean = false, vararg windowMode: WindowMode) =
+    api.getAll(createGetProperties(populateTabs, windowMode.names)).then { it.map(::BrowserWindow) }
 
 /**
  * Gets all the windows that match the [WindowMode].
  */
-val getAllWindows get() = getAllWindows(WindowMode.NORMAL, WindowMode.POPUP)
+val getAllWindows get() = getAllWindows(false, WindowMode.NORMAL, WindowMode.POPUP, WindowMode.DEVTOOLS)
 
 /**
  * Creates (opens) a new browser with any optional sizing, position or default URL provided.
