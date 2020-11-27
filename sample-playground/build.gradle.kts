@@ -8,6 +8,7 @@ repositories {
 
 dependencies {
     implementation(project(":weked-firefox"))
+    implementation(npm("webextension-polyfill", "0.7.0"))
     implementation(kotlin("stdlib-js"))
     implementation("org.jetbrains.kotlinx:kotlinx-html-js:0.7.2")
 }

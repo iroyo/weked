@@ -1,3 +1,4 @@
+import bookmarks.Bookmarks
 import storage.Storage
 import tabs.Tabs
 import windows.Windows
@@ -14,4 +15,5 @@ open external class Browser {
     val tabs: Tabs
     val storage: Storage
     val windows: Windows
+    val bookmarks: Bookmarks
 }

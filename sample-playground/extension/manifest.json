@@ -10,6 +10,7 @@
     "tabs",
     "tabHide",
     "storage",
+    "bookmarks",
     "contextualIdentities"
   ],
   "browser_action": {
