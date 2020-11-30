@@ -13,16 +13,19 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-html-js:0.7.2")
 }
 
+val output = "$projectDir/extension/output/"
+val npmPath = "$rootDir/build/js/node_modules"
+
 kotlin {
     js {
         browser {
             distribution {
-                directory = File("$projectDir/extension/output/")
+                directory = File(output)
                 copy {
-                    from("$rootDir/build/js/node_modules/webextension-polyfill/dist") {
+                    from("$npmPath/webextension-polyfill/dist") {
                         include("browser-polyfill.min.js")
                     }
-                    into("$projectDir/extension/output/")
+                    into(output)
                 }
             }
             webpackTask {
@@ -35,4 +38,8 @@ kotlin {
         }
         binaries.executable()
     }
+}
+
+tasks["clean"].doFirst {
+    delete(output)
 }
