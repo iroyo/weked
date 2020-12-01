@@ -4,15 +4,24 @@ typealias BookmarkTreeNodeUnmodifiable = String
 
 typealias BookmarkTreeNodeType = String
 
-external interface BookmarkTreeNode {
-    val index: Int?
+external interface Indexable {
+    var index: Int?
+    var parentId: String?
+}
+
+external interface BaseData {
+    var url: String?
+    var title: String?
+}
+
+external interface CommonData : Indexable, BaseData {
+    var type: BookmarkTreeNodeType?
+}
+
+external interface BookmarkTreeNode: CommonData {
     val id: String?
-    val parentId: String?
-    val url: String?
-    val title: String
     val dateAdded: Double?
     val dateGroupModified: Double?
-    val type: BookmarkTreeNodeType?
     val children: Array<BookmarkTreeNode>
     val unmodifiable: BookmarkTreeNodeUnmodifiable?
 }
