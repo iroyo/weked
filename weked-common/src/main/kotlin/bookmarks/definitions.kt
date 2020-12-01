@@ -9,12 +9,21 @@ external interface Indexable {
     var parentId: String?
 }
 
-external interface BaseData {
+external interface URLProvider {
     var url: String?
+}
+
+external interface TitleProvider {
     var title: String?
 }
 
-external interface CommonData : Indexable, BaseData {
+external interface BaseData: URLProvider, TitleProvider
+
+external interface CreateFolderDetails : Indexable, TitleProvider
+
+external interface CreateBookmarkDetails : CreateFolderDetails, URLProvider
+
+external interface CommonData : CreateBookmarkDetails {
     var type: BookmarkTreeNodeType?
 }
 

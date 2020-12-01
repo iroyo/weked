@@ -1,3 +1,4 @@
+import bookmarks.createBookmark
 import kotlinx.browser.document
 import kotlinx.html.button
 import kotlinx.html.div
@@ -14,7 +15,10 @@ fun main() {
 }
 
 fun test() {
-    browser.bookmarks.search("WebExtensions APIs - Firefox").then {
-        console.log(it.first())
+    createBookmark {
+        title = "yes yes"
+        url = "https://radisson.atlassian.net/browse/NEWWEB-28965"
+    }.then {
+        console.log(it)
     }
 }
