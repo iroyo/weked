@@ -19,6 +19,10 @@ external interface TitleProvider {
 
 external interface BaseData: URLProvider, TitleProvider
 
+external interface QueryData : BaseData {
+    var query: String?
+}
+
 external interface CreateFolderDetails : Indexable, TitleProvider
 
 external interface CreateBookmarkDetails : CreateFolderDetails, URLProvider

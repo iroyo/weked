@@ -1,5 +1,4 @@
-
-import bookmarks.createBookmarkFolder
+import bookmarks.getBookmarkChildren
 import kotlinx.browser.document
 import kotlinx.html.button
 import kotlinx.html.div
@@ -16,11 +15,7 @@ fun main() {
 }
 
 fun test() {
-    createBookmarkFolder {
-        title = "Prova"
-    }.then {
-        console.log(it)
-    }.catch {
+    getBookmarkChildren("root________").then {
         console.log(it)
     }
 }
