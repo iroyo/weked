@@ -31,6 +31,6 @@ external interface BookmarkTreeNode: CommonData {
     val id: String?
     val dateAdded: Double?
     val dateGroupModified: Double?
-    val children: Array<BookmarkTreeNode>
+    val children: Array<BookmarkTreeNode>?
     val unmodifiable: BookmarkTreeNodeUnmodifiable?
 }

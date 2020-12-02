@@ -1,4 +1,5 @@
-import bookmarks.createBookmark
+
+import bookmarks.createBookmarkFolder
 import kotlinx.browser.document
 import kotlinx.html.button
 import kotlinx.html.div
@@ -15,10 +16,11 @@ fun main() {
 }
 
 fun test() {
-    createBookmark {
-        title = "yes yes"
-        url = "https://radisson.atlassian.net/browse/NEWWEB-28965"
+    createBookmarkFolder {
+        title = "Prova"
     }.then {
+        console.log(it)
+    }.catch {
         console.log(it)
     }
 }
