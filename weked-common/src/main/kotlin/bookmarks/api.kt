@@ -1,10 +1,63 @@
 package bookmarks
 
+import DualMapListener
 import bookmarks.models.BrowserBookmark
 import browser
 import jsObject
 
 private val api = browser.bookmarks
+
+/**
+ * Fired when a bookmark import session is begun.
+ * * Expensive observers should ignore onCreated updates until onImportEnded is fired.
+ * * Observers should still handle other notifications immediately.
+ */
+val onBookmarkImportBegan = api.onImportBegan
+
+/**
+ * Fired when a bookmark import session is ended.
+ */
+val onBookmarkImportEnded = api.onImportEnded
+
+/**
+ * Fired when a bookmark or folder is moved to a different parent folder.
+ */
+val onBookmarkMoved = api.onMoved
+
+/**
+ * Fired when a bookmark or folder changes.
+ * * Currently, only title and url changes trigger this.
+ */
+val onBookmarkChanged = api.onChanged
+
+/**
+ * Fired when the children of a folder have changed their order due to the order being sorted in the UI.
+ * * This is not called as a result of a move().
+ */
+val onBookmarkChildrenReordered = DualMapListener(
+    api.onChildrenReordered,
+    map1 = { it },
+    map2 = { it.childIds }
+)
+
+/**
+ * Fired when a bookmark or folder is removed.
+ * * When a folder is removed recursively, a single notification is fired for the folder, and none for its contents.
+ */
+val onBookmarkRemoved = DualMapListener(
+    api.onRemoved,
+    map1 = { it },
+    map2 = { BrowserBookmark(it.node) }
+)
+
+/**
+ * Fired when a bookmark item (a bookmark or a folder) is created.
+ */
+val onBookmarkCreated = DualMapListener(
+    api.onCreated,
+    map1 = { it },
+    map2 = ::BrowserBookmark
+)
 
 private fun createBookmarkNode(block: CommonData.() -> Unit) =
     api.create(jsObject<CommonData>().apply(block)).then(::BrowserBookmark)

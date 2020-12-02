@@ -1,23 +1,32 @@
 package bookmarks.models
 
 import bookmarks.BookmarkTreeNode
-import bookmarks.CreateBookmarkDetails
+import bookmarks.models.BookmarkType.BOOKMARK
+import bookmarks.models.BookmarkType.FOLDER
 import kotlin.js.Date
 
-class BrowserBookmark(
-    bookmark: BookmarkTreeNode
-) : CreateBookmarkDetails by bookmark {
+data class BrowserBookmark(
+    val id: String?,
+    val parentId: String?,
+    val index: Int?,
+    val type: BookmarkType,
+    val modifiable: Boolean,
+    val dateAdded: Date?,
+    val dateGroupModified: Date?,
+    val children: List<BrowserBookmark>
+) {
 
-    val id: String? = bookmark.id
-
-    val modifiable: Boolean = bookmark.unmodifiable?.let { false } ?: true
-    val dateAdded: Date? = bookmark.dateAdded?.let { Date(it) }
-    val dateGroupModified: Date? = bookmark.dateGroupModified?.let { Date(it) }
-    val children: List<BrowserBookmark> = bookmark.children?.map(::BrowserBookmark) ?: emptyList()
-    val type: BookmarkType = bookmark.type?.let {
-        BookmarkType.valueOf(it.toUpperCase())
-    } ?: bookmark.url?.let {
-        BookmarkType.BOOKMARK
-    } ?: BookmarkType.FOLDER
+    constructor(bookmark: BookmarkTreeNode) : this(
+        id = bookmark.id,
+        index = bookmark.index,
+        parentId = bookmark.parentId,
+        dateAdded = bookmark.dateAdded?.let { Date(it) },
+        dateGroupModified = bookmark.dateGroupModified?.let { Date(it) },
+        modifiable = bookmark.unmodifiable?.let { false } ?: true,
+        children = bookmark.children?.map(::BrowserBookmark) ?: emptyList(),
+        type = bookmark.type?.let {
+            BookmarkType.valueOf(it.toUpperCase())
+        } ?: bookmark.url?.let { BOOKMARK } ?: FOLDER
+    )
 
 }

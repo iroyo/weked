@@ -1,4 +1,7 @@
-typealias CallbackListener<T> = Listener<(T) -> Unit>
+typealias SingleParameterCallback<T> = Listener<(T) -> Unit>
+typealias DualParameterCallback<T, R> = Listener<(T, R) -> Unit>
+
+typealias SimpleListener = Listener<() -> Unit>
 
 external interface Listener<in T> {
     fun addListener(listener: T)

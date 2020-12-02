@@ -23,6 +23,19 @@ external interface QueryData : BaseData {
     var query: String?
 }
 
+external interface ReorderData {
+    val childIds: Array<String>
+}
+
+external interface MoveData: Indexable {
+    val oldParentId: String
+    val oldIndex: Int
+}
+
+external interface RemoveData: Indexable {
+    val node: BookmarkTreeNode
+}
+
 external interface CreateFolderDetails : Indexable, TitleProvider
 
 external interface CreateBookmarkDetails : CreateFolderDetails, URLProvider

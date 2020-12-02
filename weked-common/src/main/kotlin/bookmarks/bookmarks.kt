@@ -1,8 +1,24 @@
 package bookmarks
 
+import Listener
+import SimpleListener
 import kotlin.js.Promise
 
 external class Bookmarks {
+
+    val onChanged: Listener<(Int, BaseData) -> Unit>
+
+    val onChildrenReordered: Listener<(Int, ReorderData) -> Unit>
+
+    val onCreated: Listener<(Int, BookmarkTreeNode) -> Unit>
+
+    val onRemoved: Listener<(Int, RemoveData) -> Unit>
+
+    val onMoved: Listener<(Int, MoveData) -> Unit>
+
+    val onImportBegan: SimpleListener
+
+    val onImportEnded: SimpleListener
 
     fun create(details: CommonData): Promise<BookmarkTreeNode>
 

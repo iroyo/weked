@@ -1,11 +1,10 @@
 package windows
 
-import CallbackListener
+import SingleParameterCallback
 import browser
 import jsObject
 import names
 import windows.models.*
-import windows.models.WindowState
 
 private val api = browser.windows
 
@@ -38,7 +37,7 @@ val onWindowFocusChanged = api.onFocusChanged
 /**
  * Fired when a window is created.
  * [BrowserWindow] Details of the window that was created. */
-val onWindowCreated = object : CallbackListener<BrowserWindow> {
+val onWindowCreated = object : SingleParameterCallback<BrowserWindow> {
 
     private val event = api.onCreated
 
