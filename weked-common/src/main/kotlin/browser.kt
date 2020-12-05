@@ -1,3 +1,4 @@
+import alarm.Alarms
 import bookmarks.Bookmarks
 import storage.Storage
 import tabs.Tabs
@@ -13,6 +14,7 @@ internal external val browser: Browser
 
 open external class Browser {
     val tabs: Tabs
+    val alarms: Alarms
     val storage: Storage
     val windows: Windows
     val bookmarks: Bookmarks
