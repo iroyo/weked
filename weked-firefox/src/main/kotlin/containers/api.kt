@@ -85,3 +85,8 @@ fun updateContainer(
     this.icon = icon?.name?.toLowerCase()
     this.color = color?.name?.toLowerCase()
 }).then(::Container)
+
+/**
+ * Removes a contextual identity, given its cookie store ID.
+ */
+fun removeContainer(id: String) = api.remove(id).then(::Container)
