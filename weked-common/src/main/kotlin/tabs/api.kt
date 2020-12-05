@@ -24,7 +24,7 @@ fun showTabs(vararg tabIds: Int) = api.show(*tabIds)
 
 fun queryTabs(block: TabQuery.() -> Unit = {}) = api.query(jsObject<TabQuery>().apply(block))
 
-fun createTabe(block: TabCreate.() -> Unit = {}) = api.create(jsObject<TabCreate>().apply(block))
+fun createTab(block: TabCreate.() -> Unit = {}) = api.create(jsObject<TabCreate>().apply(block))
 
 fun updateTab(id: Int, block: TabUpdate.() -> Unit = {}) = api.update(id, jsObject<TabUpdate>().apply(block))
 
