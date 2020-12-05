@@ -4,7 +4,7 @@ import windows.models.ResizableWindowState.Docked
 import windows.models.ResizableWindowState.Normal
 import windows.models.UnresizableWindowState.*
 
-sealed class WindowState {
+sealed class BrowserWindowState {
     abstract val name: String
 
     companion object {
@@ -19,12 +19,12 @@ sealed class WindowState {
     }
 }
 
-sealed class ResizableWindowState(override val name: String): WindowState() {
+sealed class ResizableWindowState(override val name: String): BrowserWindowState() {
     object Normal : ResizableWindowState("normal")
     object Docked : ResizableWindowState("docked")
 }
 
-sealed class UnresizableWindowState(override val name: String) : WindowState() {
+sealed class UnresizableWindowState(override val name: String) : BrowserWindowState() {
     object Minimized : UnresizableWindowState("minimized")
     object Maximized : UnresizableWindowState("maximized")
     object Fullscreen : UnresizableWindowState("fullscreen")

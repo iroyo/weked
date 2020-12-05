@@ -8,7 +8,7 @@ import windows.windowType
 class BrowserWindow(window: Window): WindowBase by window {
 
     val type: WindowMode = window.windowType
-    val state: WindowState? = WindowState.create(window.state)
+    val state: BrowserWindowState? = BrowserWindowState.create(window.state)
 
     val tabs: Array<Tab> = window.tabs ?: emptyArray()
 }

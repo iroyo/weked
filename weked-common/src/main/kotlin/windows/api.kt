@@ -81,7 +81,7 @@ val getAllWindows get() = getAllWindows(false, WindowMode.NORMAL, WindowMode.POP
 /**
  * Creates (opens) a new browser with any optional sizing, position or default URL provided.
  */
-private fun createWindow(state: WindowState, block: WindowCommonCreate.() -> Unit, vararg url: String) =
+private fun createBrowserWindow(state: BrowserWindowState, block: WindowCommonCreate.() -> Unit, vararg url: String) =
     api.create(jsObject<CreateProperties>()
         .apply(block)
         .apply {
@@ -94,18 +94,18 @@ fun createWindow(
     vararg url: String,
     windowState: ResizableWindowState = ResizableWindowState.Normal,
     block: WindowCommonCreate.() -> Unit = {}
-) = createWindow(windowState, block, *url)
+) = createBrowserWindow(windowState, block, *url)
 
 fun createMinimizedWindow(vararg url: String, block: WindowCreate.() -> Unit = {}) =
-    createWindow(UnresizableWindowState.Minimized, block, *url)
+    createBrowserWindow(UnresizableWindowState.Minimized, block, *url)
 
 fun createMaximizedWindow(vararg url: String, block: WindowCreate.() -> Unit = {}) =
-    createWindow(UnresizableWindowState.Maximized, block, *url)
+    createBrowserWindow(UnresizableWindowState.Maximized, block, *url)
 
 fun createFullscreenWindow(vararg url: String, block: WindowCreate.() -> Unit = {}) =
-    createWindow(UnresizableWindowState.Fullscreen, block, *url)
+    createBrowserWindow(UnresizableWindowState.Fullscreen, block, *url)
 
-private fun updateWindow(id: Int, state: WindowState?, block: WindowCommonUpdate.() -> Unit) =
+private fun updateWindow(id: Int, state: BrowserWindowState?, block: WindowCommonUpdate.() -> Unit) =
     api.update(id, jsObject<UpdateProperties>()
         .apply(block)
         .apply { state?.let { this.state = it.name } }
