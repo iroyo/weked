@@ -9,5 +9,5 @@ external interface Alarm {
 external interface AlarmData {
     var `when`: Double?
     var periodInMinutes: Double?
-    var delayInMinutesOptional: Double?
+    var delayInMinutes: Double?
 }

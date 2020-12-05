@@ -1,8 +1,11 @@
 package alarm
 
+import SingleParameterCallback
 import kotlin.js.Promise
 
 external class Alarms {
+
+    val onAlarm: SingleParameterCallback<Alarm>
 
     fun clearAll(): Promise<Boolean>
 
