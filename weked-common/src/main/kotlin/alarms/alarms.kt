@@ -1,4 +1,4 @@
-package alarm
+package alarms
 
 import SingleParameterCallback
 import kotlin.js.Promise
@@ -11,7 +11,7 @@ external class Alarms {
 
     fun clear(name: String): Promise<Boolean>
 
-    fun create(name: String, alarmData: AlarmData): Promise<Unit>
+    fun create(name: String?, alarmData: AlarmData)
 
     fun get(name: String) : Promise<Alarm>
 

@@ -8,6 +8,7 @@
   },
   "permissions": [
     "tabs",
+    "alarms",
     "tabHide",
     "storage",
     "bookmarks",

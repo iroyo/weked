@@ -1,4 +1,4 @@
-import alarm.Alarms
+import alarms.Alarms
 import bookmarks.Bookmarks
 import storage.Storage
 import tabs.Tabs
