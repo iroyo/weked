@@ -1,4 +1,3 @@
-import alarms.AlarmData
 import kotlinx.browser.document
 import kotlinx.html.button
 import kotlinx.html.div
@@ -12,14 +11,8 @@ fun main() {
     document.body!!.append.div {
         button {
             +"Click ME"
-            onClickFunction = { createCustomAlarm() }
+            onClickFunction = { }
         }
     }
 }
 
-
-fun createCustomAlarm() {
-    browser.alarms.create("tets", jsObject<AlarmData>().apply {
-        delayInMinutes = 1f
-    })
-}

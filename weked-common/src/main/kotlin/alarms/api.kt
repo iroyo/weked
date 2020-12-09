@@ -34,22 +34,21 @@ private fun createAlarmData(period: Float?) = jsObject<AlarmData>().apply {
     period?.let { this.periodInMinutes = it }
 }
 
-fun ((AlarmData) -> Unit).ringAt(timeInMillis: Float, repeatAfter: Float? = null) =
-    this(createAlarmData(repeatAfter).apply {
-        this.`when` = timeInMillis
-    })
-
-fun ((AlarmData) -> Unit).ringAfter(delayInMinutes: Float, repeatAfter: Float? = null) =
-    this(createAlarmData(repeatAfter).apply {
-        this.delayInMinutes = delayInMinutes
-    })
-
+/**
+ * Creates a new alarm for the current browser session.
+ * * An alarm may fire once or multiple times.
+ * * An alarm is cleared after it fires for the last time
+ */
+fun setAlarm(delayInMinutes: Float, repeatAfter: Float? = null, name: String? = null) = api.create(
+    name, createAlarmData(repeatAfter).apply { this.delayInMinutes = delayInMinutes }
+)
 
 /**
  * Creates a new alarm for the current browser session.
  * * An alarm may fire once or multiple times.
  * * An alarm is cleared after it fires for the last time
  */
-fun createAlarm(name: String? = null): (AlarmData) -> Unit = { alarm ->
-    api.create(name, alarm)
-}
+fun setAlarmAt(timeInMillis: Float, repeatAfter: Float? = null, name: String? = null) = api.create(
+    name, createAlarmData(repeatAfter).apply { this.`when` = timeInMillis }
+)
+
