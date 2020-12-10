@@ -1,0 +1,8 @@
+package settings.models
+
+enum class LevelOfControl {
+    NOT_CONTROLLABLE,
+    CONTROLLED_BY_OTHER_EXTENSIONS,
+    CONTROLLED_BY_THIS_EXTENSION,
+    CONTROLLABLE_BY_THIS_EXTENSION,
+}
