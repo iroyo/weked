@@ -19,3 +19,5 @@ fun <T> set(value: T, setting: FirefoxBrowserSettings.() -> Setting<T>) =
     setting(api).set(jsObject<SetDetails<T>>().apply {
         this.value = value
     })
+
+fun <T> clearSetting(setting: FirefoxBrowserSettings.() -> Setting<T>) = setting(api).clear(jsObject())
