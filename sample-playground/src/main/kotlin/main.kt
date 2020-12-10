@@ -11,7 +11,7 @@ fun main() {
     document.body!!.append.div {
         button {
             +"Click ME"
-            onClickFunction = { }
+            onClickFunction = {  }
         }
     }
 }

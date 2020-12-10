@@ -1,3 +1,4 @@
+import action.BrowserAction
 import alarms.Alarms
 import bookmarks.Bookmarks
 import storage.Storage
@@ -18,4 +19,5 @@ open external class Browser {
     val storage: Storage
     val windows: Windows
     val bookmarks: Bookmarks
+    open val browserAction: BrowserAction
 }
