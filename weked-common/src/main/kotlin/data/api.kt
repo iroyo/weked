@@ -20,7 +20,7 @@ private fun createRemovalOptions(since: Double, originType: OriginType?, vararg 
 fun removeData(since: Double = 0.0, originType: OriginType? = null, vararg host: String, block: CommonDataTypeSet.() -> Unit) =
     api.remove(createRemovalOptions(since, originType, *host), jsObject<DataTypeSet>().apply(block))
 
-fun removeData(cookieId: String? = null, since: Double = 0.0, originType: OriginType? = null, vararg host: String, block: CookieBasedDataTypeSet.() -> Unit) =
+fun removeData(cookieId: String?, since: Double = 0.0, originType: OriginType? = null, vararg host: String, block: CookieBasedDataTypeSet.() -> Unit) =
     api.remove(createRemovalOptions(since, originType, *host).apply {
         cookieId?.let { this.cookieStoreId = it }
     }, jsObject<DataTypeSet>().apply(block))
