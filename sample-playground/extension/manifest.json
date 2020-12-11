@@ -12,6 +12,7 @@
     "tabHide",
     "storage",
     "bookmarks",
+    "browsingData",
     "browserSettings",
     "contextualIdentities"
   ],

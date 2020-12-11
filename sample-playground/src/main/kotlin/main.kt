@@ -1,4 +1,4 @@
-import examples.testBrowserSettings2
+import examples.deleteHistoryFromAWeekAgo
 import kotlinx.browser.document
 import kotlinx.html.button
 import kotlinx.html.div
@@ -13,8 +13,10 @@ fun main() {
     document.body!!.append.div {
         button {
             +"Click ME"
-            onClickFunction = { testBrowserSettings2() }
+            onClickFunction = { deleteHistoryFromAWeekAgo() }
         }
     }
 }
+
+
 
