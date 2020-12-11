@@ -16,39 +16,39 @@ data class RemovalConfiguration(
     override val includingOrigins: Array<String>? = null,
 ) : AllConfigurations,
     Options(),
-    NoHostConfiguration,
-    NoCookieConfiguration,
-    NoTemporalConfiguration,
-    NoIncludeOriginsConfiguration,
-    NoExcludeOriginsConfiguration {
+    NextConfigurationsExceptHosts,
+    NextConfigurationsExceptCookies,
+    NextConfigurationsExceptTemporal,
+    NextConfigurationsExceptIncludeOrigins,
+    NextConfigurationsExceptExcludeOrigins {
 
     override val data: Options get() = this
 
-    override fun from(timeInMillis: Double): NoTemporalConfiguration = copy(time = timeInMillis)
-    override fun whenCookieIdIs(value: String): NoCookieConfiguration = copy(cookieStoreId = value)
-    override fun whenHostNameMatches(vararg value: String): NoHostConfiguration = copy(hostNames = arrayOf(*value))
-    override fun fromOriginsIncluding(vararg value: String): NoIncludeOriginsConfiguration = copy(includingOrigins = arrayOf(*value))
-    override fun fromOriginsExcluding(vararg value: String): NoExcludeOriginsConfiguration = copy(excludingOrigins = arrayOf(*value))
+    override fun from(timeInMillis: Double): NextConfigurationsExceptTemporal = copy(time = timeInMillis)
+    override fun whenCookieIdIs(value: String): NextConfigurationsExceptCookies = copy(cookieStoreId = value)
+    override fun whenHostNameMatches(vararg value: String): NextConfigurationsExceptHosts = copy(hostNames = arrayOf(*value))
+    override fun fromOriginsIncluding(vararg value: String): NextConfigurationsExceptIncludeOrigins = copy(includingOrigins = arrayOf(*value))
+    override fun fromOriginsExcluding(vararg value: String): NextConfigurationsExceptExcludeOrigins = copy(excludingOrigins = arrayOf(*value))
 }
 
 interface TemporalConfiguration {
-    fun from(timeInMillis: Double): NoTemporalConfiguration
+    fun from(timeInMillis: Double): NextConfigurationsExceptTemporal
 }
 
-interface CookieConfiguration {
-    fun whenCookieIdIs(value: String): NoCookieConfiguration
+interface CookiesConfiguration {
+    fun whenCookieIdIs(value: String): NextConfigurationsExceptCookies
 }
 
 interface HostConfiguration {
-    fun whenHostNameMatches(vararg value: String): NoHostConfiguration
+    fun whenHostNameMatches(vararg value: String): NextConfigurationsExceptHosts
 }
 
 interface ExcludeOriginsConfigurations {
-    fun fromOriginsExcluding(vararg value: String): NoExcludeOriginsConfiguration
+    fun fromOriginsExcluding(vararg value: String): NextConfigurationsExceptExcludeOrigins
 }
 
 interface IncludeOriginsConfiguration {
-    fun fromOriginsIncluding(vararg value: String): NoIncludeOriginsConfiguration
+    fun fromOriginsIncluding(vararg value: String): NextConfigurationsExceptIncludeOrigins
 }
 
 interface AllConfigurations :
@@ -61,13 +61,13 @@ interface ConfigurationData {
     val data: Options
 }
 
-interface NoTemporalConfiguration : ConfigurationData, CookieConfiguration, HostConfiguration, IncludeOriginsConfiguration, ExcludeOriginsConfigurations
+interface NextConfigurationsExceptTemporal : ConfigurationData, CookiesConfiguration, HostConfiguration, IncludeOriginsConfiguration, ExcludeOriginsConfigurations
 
-interface NoCookieConfiguration : ConfigurationData, HostConfiguration, IncludeOriginsConfiguration, ExcludeOriginsConfigurations
+interface NextConfigurationsExceptCookies : ConfigurationData, HostConfiguration, IncludeOriginsConfiguration, ExcludeOriginsConfigurations
 
-interface NoHostConfiguration : ConfigurationData, IncludeOriginsConfiguration
+interface NextConfigurationsExceptHosts : ConfigurationData, IncludeOriginsConfiguration, ExcludeOriginsConfigurations
 
-interface NoIncludeOriginsConfiguration: ConfigurationData
+interface NextConfigurationsExceptIncludeOrigins: ConfigurationData
 
-interface NoExcludeOriginsConfiguration: ConfigurationData
+interface NextConfigurationsExceptExcludeOrigins: ConfigurationData
 
