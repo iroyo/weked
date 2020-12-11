@@ -2,6 +2,7 @@ import action.BrowserAction
 import alarms.Alarms
 import bookmarks.Bookmarks
 import data.BrowserData
+import kotlinx.browser.window
 import storage.Storage
 import tabs.Tabs
 import windows.Windows
@@ -13,6 +14,8 @@ import windows.Windows
  */
 
 internal external val browser: Browser
+
+val isFirefox = window.navigator.userAgent.contains("Firefox", ignoreCase = true)
 
 open external class Browser {
     val tabs: Tabs
