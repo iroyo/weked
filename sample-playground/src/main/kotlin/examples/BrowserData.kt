@@ -1,6 +1,9 @@
 package examples
 
+import data.models.OriginType
+
 import data.removeData
+import data.removeHistory
 import kotlin.js.Date
 
 fun deleteHistoryFromAWeekAgo() {
@@ -9,5 +12,21 @@ fun deleteHistoryFromAWeekAgo() {
         history = true
     }.then {
         console.log("finished")
+    }
+}
+
+fun testingOriginTypes() {
+
+    removeData({
+        it
+            .from(Date().getTime())
+            .fromOriginsExcluding()
+    }) {
+
+    }
+
+
+    removeHistory(0.0, OriginType.INSTALLED_WEBS, "google.com", "facebook.com").then {
+        console.log("Completed")
     }
 }

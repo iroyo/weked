@@ -10,7 +10,9 @@ external interface RemovalOptions {
     var cookieStoreId: String?
     var originTypes: OriginTypes?
     var hostnames: Array<String>?
-    var since: Any
+    var excludeOrigins: Array<String>?
+    var origins: Array<String>?
+    var since: Double
 }
 
 external interface RemoveSettings {

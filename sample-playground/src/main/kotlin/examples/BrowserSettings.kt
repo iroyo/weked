@@ -1,5 +1,5 @@
 package examples
-
+/*
 import settings.get
 import settings.set
 
@@ -18,3 +18,5 @@ fun testBrowserSettings2(){
     }
 
 }
+
+ */

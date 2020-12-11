@@ -1,6 +1,8 @@
 package data
 
 import browser
+import data.models.*
+import isFirefox
 import jsObject
 
 private val api = browser.browsingData
@@ -13,8 +15,28 @@ private fun createOriginType(value: OriginType) = jsObject<OriginTypes>().apply 
 
 private fun createRemovalOptions(since: Double, originType: OriginType?, vararg host: String) = jsObject<RemovalOptions>().apply {
     this.since = since
-    this.hostnames = arrayOf(*host)
-    originType?.let { this.originTypes = createOriginType(it) }
+    if (isFirefox) {
+        this.hostnames = arrayOf(*host)
+    } else {
+        originType?.let { this.originTypes = createOriginType(it) }
+    }
+}
+
+
+
+fun removeData(options: (AllConfigurations) -> ConfigurationData, block: DataTypeSet.() -> Unit) =
+    api.remove( convertOptions(options(RemovalConfiguration()).data), jsObject<DataTypeSet>().apply(block))
+
+
+private fun convertOptions(data: Options) = jsObject<RemovalOptions>().apply {
+    this.since = data.time
+    if (isFirefox) {
+        this.hostnames = data.hostNames
+        this.cookieStoreId = data.cookieStoreId
+    } else {
+        this.origins = data.includingOrigins
+        this.excludeOrigins = data.excludingOrigins
+    }
 }
 
 fun removeData(since: Double = 0.0, originType: OriginType? = null, vararg host: String, block: CommonDataTypeSet.() -> Unit) =
@@ -22,7 +44,7 @@ fun removeData(since: Double = 0.0, originType: OriginType? = null, vararg host:
 
 fun removeData(cookieId: String?, since: Double = 0.0, originType: OriginType? = null, vararg host: String, block: CookieBasedDataTypeSet.() -> Unit) =
     api.remove(createRemovalOptions(since, originType, *host).apply {
-        cookieId?.let { this.cookieStoreId = it }
+        if (isFirefox) cookieId?.let { this.cookieStoreId = it }
     }, jsObject<DataTypeSet>().apply(block))
 
 /**

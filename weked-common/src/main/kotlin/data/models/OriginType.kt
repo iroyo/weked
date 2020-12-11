@@ -1,4 +1,4 @@
-package data
+package data.models
 
 enum class OriginType {
     EXTENSIONS,
