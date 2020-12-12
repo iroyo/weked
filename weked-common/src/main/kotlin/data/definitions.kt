@@ -21,12 +21,7 @@ external interface RemoveSettings {
     val dataRemovalPermitted: DataTypeSet
 }
 
-external interface CookieBasedDataTypeSet {
-    var cookies: Boolean?
-    var indexedDB: Boolean?
-}
-
-external interface CommonDataTypeSet {
+external interface DataTypeSet {
     var cache: Boolean?
     var downloads: Boolean?
     var formData: Boolean?
@@ -36,6 +31,6 @@ external interface CommonDataTypeSet {
     var pluginData: Boolean?
     var serviceWorkers: Boolean?
     var serverBoundCertificates: Boolean?
+    var cookies: Boolean?
+    var indexedDB: Boolean?
 }
-
-external interface DataTypeSet : CommonDataTypeSet, CookieBasedDataTypeSet

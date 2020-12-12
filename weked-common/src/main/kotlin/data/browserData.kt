@@ -16,6 +16,8 @@ external class BrowserData {
 
     fun removeHistory(removalOptions: RemovalOptions): Promise<Unit>
 
+    fun removeIndexedDB(removalOptions: RemovalOptions): Promise<Unit>
+
     fun removeLocalStorage(removalOptions: RemovalOptions): Promise<Unit>
 
     fun removePasswords(removalOptions: RemovalOptions): Promise<Unit>
