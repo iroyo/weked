@@ -6,13 +6,16 @@ external interface OriginTypes {
     var extension: Boolean?
 }
 
-external interface RemovalOptions {
-    var cookieStoreId: String?
+external interface CommonRemoveOptions {
+    var since: Double
     var originTypes: OriginTypes?
+}
+
+external interface RemovalOptions : CommonRemoveOptions {
+    var cookieStoreId: String?
     var hostnames: Array<String>?
     var excludeOrigins: Array<String>?
     var origins: Array<String>?
-    var since: Double
 }
 
 external interface RemoveSettings {
@@ -21,21 +24,20 @@ external interface RemoveSettings {
     val dataRemovalPermitted: DataTypeSet
 }
 
-external interface CookieBasedDataTypeSet {
-    var cookies: Boolean?
-    var indexedDB: Boolean?
-}
-
-external interface CommonDataTypeSet {
+external interface DataTypeSet {
     var cache: Boolean?
+    val appcache: Boolean?
+    var cacheStorage: Boolean?
+    var cookies: Boolean?
     var downloads: Boolean?
     var formData: Boolean?
+    var fileSystems: Boolean?
     var history: Boolean?
+    var webSQL: Boolean?
+    var indexedDB: Boolean?
     var localStorage: Boolean?
     var passwords: Boolean?
     var pluginData: Boolean?
     var serviceWorkers: Boolean?
     var serverBoundCertificates: Boolean?
 }
-
-external interface DataTypeSet : CommonDataTypeSet, CookieBasedDataTypeSet
