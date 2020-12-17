@@ -16,6 +16,7 @@ import windows.Windows
 internal external val browser: Browser
 
 val isFirefox = window.navigator.userAgent.contains("Firefox", ignoreCase = true)
+val isChrome = window.navigator.userAgent.contains("Chrome", ignoreCase = true)
 
 open external class Browser {
     val tabs: Tabs

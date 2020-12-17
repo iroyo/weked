@@ -1,9 +1,11 @@
 package data
 
 import browser
+import isChrome
 import isFirefox
 import jsObject
 import kotlin.js.Date
+import kotlin.js.Promise
 
 private val api = browser.browsingData
 
@@ -59,6 +61,7 @@ fun removeData(timeInMillis: Double): RemoveConfiguration = RemoveConfiguration(
 }
 
 open class BaseConfiguration internal constructor(
+    internal val targets: DataTypeSet,
     internal val options: RemovalOptions = jsObject()
 ) {
 
@@ -71,16 +74,49 @@ open class BaseConfiguration internal constructor(
 }
 
 class RemoveConfiguration internal constructor(
-    internal val targets: DataTypeSet = jsObject()
-) : BaseConfiguration() {
-
-
-
+) : BaseConfiguration(jsObject()) {
 
 }
 
-// removeDataFor {
+abstract class RemoveBuilder(
+    internal val action: (RemovalOptions) -> Promise<Unit>
+) {
 
+    private val options: RemovalOptions = jsObject()
+
+
+
+    abstract fun execute(options: RemovalOptions): Promise<Unit>
+
+}
+
+fun removeDataFrom(block: TargetConfiguration.() -> Unit): (RemovalOptions) -> Promise<Unit> = {
+    api.remove(it, TargetConfiguration().apply(block).targets)
+}
+
+class TargetConfiguration internal constructor(
+    internal val targets: DataTypeSet = jsObject()
+) {
+    // @formatter:off
+    fun cache() { targets.cache = true }
+    fun cacheApp() { if (isChrome) targets.appcache = true }
+    fun cacheStorage() { if (isChrome) targets.cacheStorage = true }
+    fun cookies() { targets.cookies = true }
+    fun downloads() { targets.downloads = true }
+    fun formData() { targets.formData = true }
+    fun fileSystems() { targets.fileSystems = true }
+    fun history() { targets.history = true }
+    fun webSQL() { if (isChrome) targets.webSQL = true }
+    fun indexedDB() { targets.indexedDB = true }
+    fun localStorage() { targets.localStorage = true }
+    fun passwords() { targets.passwords = true }
+    fun pluginData() { targets.pluginData = true }
+    fun serviceWorkers() { targets.serviceWorkers = true }
+    fun serverBoundCertificates() { targets.serverBoundCertificates = true }
+    // @formatter:on
+}
+
+// removeDataFor {
 
 
 /*

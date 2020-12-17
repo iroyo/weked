@@ -26,7 +26,7 @@ external interface RemoveSettings {
 
 external interface DataTypeSet {
     var cache: Boolean?
-    val appcache: Boolean?
+    var appcache: Boolean?
     var cacheStorage: Boolean?
     var cookies: Boolean?
     var downloads: Boolean?

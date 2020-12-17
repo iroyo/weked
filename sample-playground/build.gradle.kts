@@ -24,8 +24,8 @@ kotlin {
                 copy {
                     from("$npmPath/webextension-polyfill/dist") {
                         include("browser-polyfill.min.js")
-                    }into(output)
-
+                    }
+                    into(output)
                 }
             }
             webpackTask {
