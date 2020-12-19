@@ -1,6 +1,7 @@
 package data
 
 import browser
+import data.TargetConfiguration.Companion.createDataTypes
 import isChrome
 import isFirefox
 import jsObject
@@ -19,84 +20,48 @@ private fun createOriginType(
     this.unprotectedWeb = originFromNormalWebs
 }
 
-val RemoveConfiguration.fromAllOrigins
-    get() = from(
-        hostedWebs = true,
-        normalWebs = true,
-        extensions = true
-    )
-
-fun RemoveConfiguration.from(
-    normalWebs: Boolean,
-    installedWebs: Boolean = false,
-    extensions: Boolean = false,
-) = this.apply {
-    if (!isFirefox) options.originTypes = createOriginType(extensions, normalWebs, installedWebs)
-}
-
-private fun removeDataFromDate(millis: Int) = removeData(Date().getTime() - millis)
-
 private const val HOUR_IN_MILLIS = 1000 * 60 * 60
 private const val DAY_IN_MILLIS = HOUR_IN_MILLIS * 24
 private const val WEEK_IN_MILLIS = DAY_IN_MILLIS * 7
 
-val removeDataFromLastHour get() = removeDataFromDate(HOUR_IN_MILLIS)
-val removeDataFromLastDay get() = removeDataFromDate(DAY_IN_MILLIS)
-val removeDataFromLastWeek get() = removeDataFromDate(WEEK_IN_MILLIS)
-val removeDataFromAllTime get() = removeData(0.0)
-
-private fun buildRemoveAction(configuration: RemoveConfiguration, block: DataTypeSet.() -> Unit) = with(configuration) {
-    api.remove(options, targets.apply(block))
-}
-
-fun removeDataFromLastHour(block: DataTypeSet.() -> Unit) = buildRemoveAction(removeDataFromLastHour, block)
-fun removeDataFromLastDay(block: DataTypeSet.() -> Unit) = buildRemoveAction(removeDataFromLastDay, block)
-fun removeDataFromLastWeek(block: DataTypeSet.() -> Unit) = buildRemoveAction(removeDataFromLastWeek, block)
-fun removeDataFromAllTime(block: DataTypeSet.() -> Unit) = buildRemoveAction(removeDataFromAllTime, block)
-
-fun removeData(timeInMillis: Double, block: DataTypeSet.() -> Unit) = buildRemoveAction(removeData(timeInMillis), block)
-
-fun removeData(timeInMillis: Double): RemoveConfiguration = RemoveConfiguration().apply {
-    options.since = timeInMillis
-}
-
-open class BaseConfiguration internal constructor(
-    internal val targets: DataTypeSet,
-    internal val options: RemovalOptions = jsObject()
-) {
-
-    val fromAllOrigins = from(hostedWebs = true, normalWebs = true, extensions = true)
-
-    fun from(normalWebs: Boolean, hostedWebs: Boolean = false, extensions: Boolean = false) = this.apply {
-        if (!isFirefox) options.originTypes = createOriginType(extensions, normalWebs, hostedWebs)
-    }
-
-}
-
-class RemoveConfiguration internal constructor(
-) : BaseConfiguration(jsObject()) {
-
-}
-
-abstract class RemoveBuilder(
-    internal val action: (RemovalOptions) -> Promise<Unit>
-) {
+class RemoveConfigurator {
 
     private val options: RemovalOptions = jsObject()
 
+    val fromAllOrigins = from(normalWebs = true, hostedWebs = true, extensions = true)
+    val fromLastHour = from(Date().getTime() - HOUR_IN_MILLIS)
+    val fromLastDay = from(Date().getTime() - DAY_IN_MILLIS)
+    val fromLastWeek = from(Date().getTime() - WEEK_IN_MILLIS)
+    val fromAllTime = from(0.0)
 
+    fun from(timeInMillis: Double) = this.options.apply {
+        since = timeInMillis
+    }
 
-    abstract fun execute(options: RemovalOptions): Promise<Unit>
+    fun from(normalWebs: Boolean, hostedWebs: Boolean = false, extensions: Boolean = false) = this.options.apply {
+        if (!isFirefox) originTypes = createOriginType(extensions, normalWebs, hostedWebs)
+    }
+
+    fun from(block: TargetConfiguration.() -> Unit): Promise<Unit> {
+        val dataTypes = createDataTypes(block)
+        console.log(options)
+        console.log(dataTypes)
+        return api.remove(options, dataTypes)
+    }
+
 
 }
 
-fun removeDataFrom(block: TargetConfiguration.() -> Unit): (RemovalOptions) -> Promise<Unit> = {
-    api.remove(it, TargetConfiguration().apply(block).targets)
-}
+fun removeData(block: RemoveConfigurator.() -> Promise<Unit>) = block(RemoveConfigurator())
 
-class TargetConfiguration internal constructor(
+/*
+fun removeData(from: TargetConfiguration.() -> Unit, builder: RemovalConfiguration.() -> RemovalOptions) =
+    api.remove(builder(RemovalConfiguration()), createDataTypes(from))
+
+*/
+class TargetConfiguration internal constructor() {
     internal val targets: DataTypeSet = jsObject()
-) {
+
     // @formatter:off
     fun cache() { targets.cache = true }
     fun cacheApp() { if (isChrome) targets.appcache = true }
@@ -114,6 +79,12 @@ class TargetConfiguration internal constructor(
     fun serviceWorkers() { targets.serviceWorkers = true }
     fun serverBoundCertificates() { targets.serverBoundCertificates = true }
     // @formatter:on
+
+    companion object {
+        internal fun createDataTypes(from: TargetConfiguration.() -> Unit) = TargetConfiguration().apply(from).targets
+    }
+
+
 }
 
 // removeDataFor {
