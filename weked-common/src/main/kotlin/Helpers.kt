@@ -8,3 +8,5 @@ inline fun <reified T : Enum<T>> enumFrom(value: String?, fallback: T) = value?.
 } ?: fallback
 
 val <T : Enum<T>> Array<out T>.names get() = this.map { it.name }.toTypedArray()
+
+fun <T : Any> create(block: T.() -> Unit) = jsObject<T>().apply(block)

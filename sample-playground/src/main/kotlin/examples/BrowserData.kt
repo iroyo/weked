@@ -1,20 +1,16 @@
 package examples
 
+import data.fromAllTime
 import data.removeData
-import kotlin.js.Date
 
 fun testingBrowsingDataSettings() {
+    removeData(fromAllTime) {
+
+    }
+
+
 }
 
 fun testingRemoveDataFromDayAgo() {
-    val dayAgo = Date().getTime() - (1000 * 60 * 60 * 24)
 
-    removeData {
-        from(dayAgo)
-        from {
-            cacheApp()
-        }
-    }.then {
-        console.log("Completed")
-    }
 }

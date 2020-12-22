@@ -1,102 +1,96 @@
 package data
 
 import browser
-import data.TargetConfiguration.Companion.createDataTypes
+import create
 import isChrome
-import isFirefox
 import jsObject
 import kotlin.js.Date
-import kotlin.js.Promise
 
 private val api = browser.browsingData
 
-private fun createOriginType(
-    originFromExtensions: Boolean?,
-    originFromNormalWebs: Boolean?,
-    originFromHostedWebs: Boolean?
-) = jsObject<OriginTypes>().apply {
-    this.extension = originFromExtensions
-    this.protectedWeb = originFromHostedWebs
-    this.unprotectedWeb = originFromNormalWebs
-}
+typealias Provider<T> = () -> T
 
 private const val HOUR_IN_MILLIS = 1000 * 60 * 60
 private const val DAY_IN_MILLIS = HOUR_IN_MILLIS * 24
 private const val WEEK_IN_MILLIS = DAY_IN_MILLIS * 7
 
-class RemoveConfigurator {
-
-    private val options: RemovalOptions = jsObject()
-
-    val fromAllOrigins = from(normalWebs = true, hostedWebs = true, extensions = true)
-    val fromLastHour = from(Date().getTime() - HOUR_IN_MILLIS)
-    val fromLastDay = from(Date().getTime() - DAY_IN_MILLIS)
-    val fromLastWeek = from(Date().getTime() - WEEK_IN_MILLIS)
-    val fromAllTime = from(0.0)
-
-    fun from(timeInMillis: Double) = this.options.apply {
-        since = timeInMillis
-    }
-
-    fun from(normalWebs: Boolean, hostedWebs: Boolean = false, extensions: Boolean = false) = this.options.apply {
-        if (!isFirefox) originTypes = createOriginType(extensions, normalWebs, hostedWebs)
-    }
-
-    fun from(block: TargetConfiguration.() -> Unit): Promise<Unit> {
-        val dataTypes = createDataTypes(block)
-        console.log(options)
-        console.log(dataTypes)
-        return api.remove(options, dataTypes)
-    }
-
-
+sealed class OriginsList(val data: Array<String>) {
+    class Including(data: Array<String>): OriginsList(data)
+    class Excluding(data: Array<String>): OriginsList(data)
 }
 
-fun removeData(block: RemoveConfigurator.() -> Promise<Unit>) = block(RemoveConfigurator())
+private fun timeProviderFromDate(timeInMillis: Int): () -> Double = { Date().getTime() - timeInMillis }
 
-/*
-fun removeData(from: TargetConfiguration.() -> Unit, builder: RemovalConfiguration.() -> RemovalOptions) =
-    api.remove(builder(RemovalConfiguration()), createDataTypes(from))
+private fun createDataTypes(from: TargetConfiguration.() -> Unit) = TargetConfiguration().apply(from).targets
 
-*/
-class TargetConfiguration internal constructor() {
-    internal val targets: DataTypeSet = jsObject()
-
-    // @formatter:off
-    fun cache() { targets.cache = true }
-    fun cacheApp() { if (isChrome) targets.appcache = true }
-    fun cacheStorage() { if (isChrome) targets.cacheStorage = true }
-    fun cookies() { targets.cookies = true }
-    fun downloads() { targets.downloads = true }
-    fun formData() { targets.formData = true }
-    fun fileSystems() { targets.fileSystems = true }
-    fun history() { targets.history = true }
-    fun webSQL() { if (isChrome) targets.webSQL = true }
-    fun indexedDB() { targets.indexedDB = true }
-    fun localStorage() { targets.localStorage = true }
-    fun passwords() { targets.passwords = true }
-    fun pluginData() { targets.pluginData = true }
-    fun serviceWorkers() { targets.serviceWorkers = true }
-    fun serverBoundCertificates() { targets.serverBoundCertificates = true }
-    // @formatter:on
-
-    companion object {
-        internal fun createDataTypes(from: TargetConfiguration.() -> Unit) = TargetConfiguration().apply(from).targets
+private fun createRemovalOptions(
+    getTime: Provider<Double>,
+    getOrigins: Provider<OriginTypes>? = null,
+    getOriginsList: Provider<OriginsList>? = null,
+) = create<RemovalOptions> {
+    since = getTime()
+    getOrigins?.takeIf { isChrome }?.let { this.originTypes = it() }
+    getOriginsList?.let { it() }?.takeIf { isChrome && it.data.isNotEmpty() }?.let { result ->
+        when(result) {
+            is OriginsList.Including -> this.origins = result.data
+            is OriginsList.Excluding -> this.excludeOrigins = result.data
+        }
     }
-
-
 }
 
-// removeDataFor {
+val fromAllTime: () -> Double = { 0.0 }
+val fromLastHour = timeProviderFromDate(HOUR_IN_MILLIS)
+val fromLastDay = timeProviderFromDate(DAY_IN_MILLIS)
+val fromLastWeek = timeProviderFromDate(WEEK_IN_MILLIS)
+
+fun from(normalWebs: Boolean, hostedWebs: Boolean = false, extensions: Boolean = false): () -> OriginTypes = {
+    jsObject<OriginTypes>().apply {
+        this.extension = extensions
+        this.protectedWeb = hostedWebs
+        this.unprotectedWeb = normalWebs
+    }
+}
+
+val fromAllOrigins: () -> OriginTypes = from(normalWebs = true, hostedWebs = true, extensions = true)
+
+fun fromOriginsIncluding(vararg value: String): Provider<OriginsList> = {
+    OriginsList.Including(arrayOf(*value))
+}
+
+fun fromOriginsExcluding(vararg value: String): Provider<OriginsList> = {
+    OriginsList.Excluding(arrayOf(*value))
+}
 
 
-/*
+fun removeData(
+    timeProvider: () -> Double,
+    originsProvider: () -> OriginTypes = from(true),
+    targets: TargetConfiguration.() -> Unit
+) = api.remove(
+    createRemovalOptions(timeProvider, originsProvider),
+    createDataTypes(targets)
+)
+
+fun removeData(
+    timeProvider: () -> Double,
+    originsListProvider: Provider<OriginsList>?,
+    originsTypeProvider: Provider<OriginTypes>? = null,
+    targets: SpecificOriginTargetConfiguration.() -> Unit
+) = api.remove(
+    createRemovalOptions(timeProvider, originsTypeProvider, originsListProvider),
+    createDataTypes(targets)
+)
 
 /**
  * Clears the browser's cache.
  */
-fun clearAllCache() = api.removeCache(jsObject())
+fun removeCache(
+    timeProvider: () -> Double,
+    originsProvider: () -> OriginTypes = from(true),
+) = api.removeCache(createRemovalOptions(timeProvider, originsProvider))
 
+
+/*
 /**
  * Removes cookies.
  */
