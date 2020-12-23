@@ -4,6 +4,7 @@ import bookmarks.Bookmarks
 import commands.Commands
 import cookies.Cookies
 import data.BrowserData
+import devtools.DevTools
 import kotlinx.browser.window
 import storage.Storage
 import tabs.Tabs
@@ -26,6 +27,7 @@ open external class Browser {
     val storage: Storage
     val windows: Windows
     val cookies: Cookies
+    val devtools: DevTools
     val bookmarks: Bookmarks
     open val commands: Commands
     open val browsingData: BrowserData
