@@ -1,6 +1,7 @@
 import action.BrowserAction
 import alarms.Alarms
 import bookmarks.Bookmarks
+import commands.Commands
 import data.BrowserData
 import kotlinx.browser.window
 import storage.Storage
@@ -24,6 +25,7 @@ open external class Browser {
     val storage: Storage
     val windows: Windows
     val bookmarks: Bookmarks
+    open val commands: Commands
     open val browsingData: BrowserData
     open val browserAction: BrowserAction
 }
