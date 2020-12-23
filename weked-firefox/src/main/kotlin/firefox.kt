@@ -1,5 +1,6 @@
 import action.FirefoxBrowserAction
 import containers.Containers
+import portal.CaptivePortal
 import settings.FirefoxBrowserSettings
 import sidebar.Sidebar
 
@@ -9,5 +10,6 @@ external class Firefox : Browser {
     override val browserAction: FirefoxBrowserAction
     val browserSettings: FirefoxBrowserSettings
     val contextualIdentities: Containers
+    val captivePortal: CaptivePortal
     val sidebarAction: Sidebar
 }

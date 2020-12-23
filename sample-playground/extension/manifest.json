@@ -13,6 +13,7 @@
     "storage",
     "bookmarks",
     "browsingData",
+    "captivePortal",
     "browserSettings",
     "contextualIdentities"
   ],
