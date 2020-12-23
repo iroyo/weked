@@ -28,6 +28,11 @@ fun getCookie(block: Details.() -> Unit) = api.get(create(block))
 fun getAllCookies(block: GetAllDetails.() -> Unit) = api.getAll(create(block))
 
 /**
+ * Retrieves all cookies that match a given set of filters.
+ */
+val getAllCookies get() = api.getAll(create {})
+
+/**
  * Lists all existing cookie stores.
  */
 val getAllCookieStores get() = api.getAllCookiesStores()

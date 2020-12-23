@@ -29,8 +29,6 @@ external interface CookieStore {
     val tabIds: Array<Int>
 }
 
-
-
 external interface Details {
     var name: String
     var url: String

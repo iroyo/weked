@@ -10,12 +10,14 @@
     "tabs",
     "alarms",
     "tabHide",
+    "cookies",
     "storage",
     "bookmarks",
     "browsingData",
     "captivePortal",
     "browserSettings",
-    "contextualIdentities"
+    "contextualIdentities",
+    "*://www.youtube.com/"
   ],
   "browser_action": {
     "default_icon": "icons/beasts-48.png",
