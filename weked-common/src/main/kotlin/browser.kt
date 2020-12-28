@@ -27,8 +27,8 @@ open external class Browser {
     val storage: Storage
     val windows: Windows
     val cookies: Cookies
-    val devtools: DevTools
     val bookmarks: Bookmarks
+    open val devtools: DevTools
     open val commands: Commands
     open val browsingData: BrowserData
     open val browserAction: BrowserAction
