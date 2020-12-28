@@ -1,0 +1,14 @@
+package dns
+
+enum class Flags {
+    ALLOW_NAME_COLLISIONS,
+    BYPASS_CACHE,
+    CANONICAL_NAME,
+    DISABLE_IPV4,
+    DISABLE_IPV6,
+    DISABLE_TRR,
+    OFFLINE,
+    PRIORITY_LOW,
+    PRIORITY_MEDIUM,
+    SPECULATE,
+}

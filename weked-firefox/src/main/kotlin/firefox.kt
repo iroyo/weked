@@ -2,6 +2,7 @@ import action.FirefoxBrowserAction
 import commands.FirefoxCommands
 import containers.Containers
 import devtools.FirefoxDevTools
+import dns.Dns
 import portal.CaptivePortal
 import settings.FirefoxBrowserSettings
 import sidebar.Sidebar
@@ -16,4 +17,5 @@ external class Firefox : Browser {
     val contextualIdentities: Containers
     val captivePortal: CaptivePortal
     val sidebarAction: Sidebar
+    val dns: Dns
 }
