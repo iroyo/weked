@@ -4,7 +4,7 @@ import kotlin.js.Promise
 
 external class Downloads {
     fun download(options: DownloadOptions): Promise<Int>
-    fun search()
+    fun search(options: DownloadQuery): Promise<Array<DownloadItem>>
     fun pause()
     fun resume()
     fun cancel()

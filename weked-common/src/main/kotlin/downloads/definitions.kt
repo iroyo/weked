@@ -23,12 +23,12 @@ external interface DownloadCommon {
     var id: Int?
     var url: String?
     var filename: String?
-    var danger: String?
     var mime: String?
     var startTime: String
     var endTime: String?
-    var state: String?
     var paused: Boolean?
+    var danger: String?
+    var state: String?
     var error: String?
     var bytesReceived: Float?
     var totalBytes: Float?
@@ -45,12 +45,15 @@ external interface DownloadItem : DownloadCommon {
     var estimatedEndTime: String?
 }
 
-external interface DownloadQuery: DownloadCommon {
-    var query: Array<String>?
+external interface DownloadTimeQuery {
     var startedBefore: DownloadTime?
     var startedAfter: DownloadTime?
     var endedBefore: DownloadTime?
     var endedAfter: DownloadTime?
+}
+
+external interface DownloadQuery: DownloadCommon, DownloadTimeQuery {
+    var query: Array<String>?
     var totalBytesGreater: Float?
     var totalBytesLess: Float?
     var filenameRegex: String?

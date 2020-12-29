@@ -3,6 +3,7 @@ package downloads
 import browser
 import create
 import isFirefox
+import jsObject
 import mapToArray
 
 private val api = browser.downloads
@@ -57,3 +58,8 @@ fun download(
     body: String,
     block: DownloadConfigurator.() -> Unit
 ) = download("POST", url, body, block)
+
+/**
+ * Get all downloads
+ */
+val getAllDownloads get() = api.search(jsObject())
