@@ -1,33 +1,11 @@
 package downloads
 
 import browser
-import create
-import isFirefox
+import downloads.models.DownloadConfigurator
+import downloads.models.DownloadSearch
 import jsObject
-import mapToArray
 
 private val api = browser.downloads
-
-class DownloadConfigurator internal constructor() {
-    internal val options = create<DownloadOptions> { }
-
-    private inline fun assignIfFirefox(block: DownloadOptions.() -> Unit) = if (isFirefox) assign(block) else Unit
-    private inline fun assign(block: DownloadOptions.() -> Unit) = with(options, block)
-    private fun createHeader(pair: Pair<String, String>) = create<Header> {
-        this.name = pair.first
-        this.value = pair.second
-    }
-
-    val showSaveAsDialog = assign { saveAs = true }
-    val incognitoMode = assignIfFirefox { incognito = true }
-    val allowHttpErrors = assignIfFirefox { allowHttpErrors = true }
-    fun fileName(value: String) = assign { filename = value }
-    fun resolutionStrategy(action: ConflictAction) = assign { conflictAction = action.name }
-
-    fun headers(vararg header: Pair<String, String>) = assign {
-        headers = header.mapToArray(::createHeader)
-    }
-}
 
 private fun download(
     method: String,
@@ -63,3 +41,8 @@ fun download(
  * Get all downloads
  */
 val getAllDownloads get() = api.search(jsObject())
+
+fun getDownloadsWhere(block: DownloadSearch.() -> Unit) =
+    api.search(DownloadSearch().apply(block).data)
+
+

@@ -19,6 +19,18 @@ external interface DownloadOptions {
     var url: String
 }
 
+external interface DownloadState {
+    var state: String?
+}
+
+external interface DownloadError {
+    var error: String?
+}
+
+external interface DownloadDanger {
+    var danger: String?
+}
+
 external interface DownloadCommon {
     var id: Int?
     var url: String?
@@ -27,16 +39,13 @@ external interface DownloadCommon {
     var startTime: String
     var endTime: String?
     var paused: Boolean?
-    var danger: String?
-    var state: String?
-    var error: String?
     var bytesReceived: Float?
     var totalBytes: Float?
     var fileSize: Float?
     var exists: Boolean?
 }
 
-external interface DownloadItem : DownloadCommon {
+external interface DownloadItemBase : DownloadCommon {
     var referrer: String
     var incognito: Boolean
     var canResume: Boolean
@@ -45,19 +54,32 @@ external interface DownloadItem : DownloadCommon {
     var estimatedEndTime: String?
 }
 
-external interface DownloadTimeQuery {
+external interface DownloadItem :
+    DownloadItemBase,
+    DownloadState,
+    DownloadError,
+    DownloadDanger
+
+external interface DownloadTimeRange {
     var startedBefore: DownloadTime?
     var startedAfter: DownloadTime?
     var endedBefore: DownloadTime?
     var endedAfter: DownloadTime?
 }
 
-external interface DownloadQuery: DownloadCommon, DownloadTimeQuery {
+external interface DownloadQueryCommon : DownloadCommon {
     var query: Array<String>?
+    var orderBy: Array<String>?
     var totalBytesGreater: Float?
     var totalBytesLess: Float?
     var filenameRegex: String?
     var urlRegex: String?
     var limit: Int?
-    var orderBy: Array<String>?
 }
+
+external interface DownloadQuery :
+    DownloadQueryCommon,
+    DownloadTimeRange,
+    DownloadState,
+    DownloadError,
+    DownloadDanger
