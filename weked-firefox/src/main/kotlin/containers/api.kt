@@ -5,7 +5,6 @@ import browser
 import containers.models.Color
 import containers.models.Icon
 import create
-import jsObject
 
 internal val api = browser.contextualIdentities
 
@@ -53,9 +52,7 @@ fun getContainer(cookieStoreId: String) = api.get(cookieStoreId).then(::Containe
  * * If name is null all containers are returned
  * * If name does not match any name's container an empty array will be returned
  */
-fun queryContainers(name: String? = null) = api.query(jsObject<ContainerName>().apply {
-    this.name = name
-}).then {
+fun queryContainers(name: String? = null) = api.query(create { this.name = name }).then {
     it.map(::Container)
 }
 
@@ -66,7 +63,7 @@ fun createContainer(
     name: String,
     color: Color,
     icon: Icon,
-) = api.create(jsObject<ContainerData>().apply {
+) = api.create(create {
     this.name = name
     this.icon = icon.name.toLowerCase()
     this.color = color.name.toLowerCase()
