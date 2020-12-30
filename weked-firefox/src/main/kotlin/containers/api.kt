@@ -4,6 +4,7 @@ import Listener
 import browser
 import containers.models.Color
 import containers.models.Icon
+import create
 import jsObject
 
 internal val api = browser.contextualIdentities
@@ -80,7 +81,7 @@ fun updateContainer(
     name: String? = null,
     color: Color? = null,
     icon: Icon? = null
-) = api.update(id, jsObject<ContainerData>().apply {
+) = api.update(id, create {
     this.name = name
     this.icon = icon?.name?.toLowerCase()
     this.color = color?.name?.toLowerCase()
