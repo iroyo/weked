@@ -8,42 +8,40 @@ import kotlin.js.Promise
 
 private val api = browser.storage
 
-val <T> ((StorageArea) -> Promise<T>).onLocalStorage get() = this(api.local)
-val <T> ((StorageArea) -> Promise<T>).onSyncedStorage get() = this(api.sync)
-val <T> ((StorageArea) -> Promise<T>).onManagedStorage get() = this(api.managed)
+class StorageResolver<T>(private val block: (StorageArea) -> Promise<T>) {
+    val onLocalStorage get() = block(api.local)
+    val onSyncedStorage get() = block(api.sync)
+    val onManagedStorage get() = block(api.managed)
+}
 
 /**
  * Removes all items from storage.
  */
-val clearAllData: (StorageArea) -> Promise<Any> = {
-    it.clear()
-}
+val clearAllData = StorageResolver { it.clear() }
 
 /**
  * Gets all items from storage.
  */
-val getAllData: (StorageArea) -> Promise<Items> = {
-    it.get(null)
-}
+val getAllData = StorageResolver { it.get(null) }
 
 /**
  * Gets one or more items from storage.
  */
-fun getDataWithKeys(vararg keys: String): (StorageArea) -> Promise<Items> = {
+fun getDataWithKeys(vararg keys: String) = StorageResolver {
     it.get(arrayOf(*keys))
 }
 
 /**
  * Removes one or more items from storage.
  */
-fun removeDataWithKeys(vararg keys: String): (StorageArea) -> Promise<Any> = {
+fun removeDataWithKeys(vararg keys: String) = StorageResolver {
     it.remove(arrayOf(*keys))
 }
 
 /**
  * Sets multiple items.
  */
-fun saveData(vararg items: Pair<String, Any>): (StorageArea) -> Promise<Any> = {
+fun saveData(vararg items: Pair<String, Any>) = StorageResolver {
     it.set(Items().apply {
         items.forEach { pair -> set(pair.first, pair.second) }
     })
