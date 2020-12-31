@@ -14,6 +14,7 @@
     "storage",
     "bookmarks",
     "downloads",
+    "downloads.shelf",
     "browsingData",
     "captivePortal",
     "browserSettings",

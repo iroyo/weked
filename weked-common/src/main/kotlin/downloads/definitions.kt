@@ -87,3 +87,8 @@ external interface DownloadQuery :
     DownloadState,
     DownloadError,
     DownloadDanger
+
+
+external interface FileIconOptions {
+    var size: Int?
+}

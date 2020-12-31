@@ -24,4 +24,7 @@ class DownloadSearch(internal val data: DownloadQuery = jsObject()) : DownloadQu
     fun state(value: DangerType) = assign { danger = value.name }
     fun error(value: InterruptReason) = assign { error = value.name }
 
+    companion object {
+        fun getQuery(block: DownloadSearch.() -> Unit) = DownloadSearch().apply(block).data
+    }
 }

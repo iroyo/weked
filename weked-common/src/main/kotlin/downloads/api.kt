@@ -1,6 +1,7 @@
 package downloads
 
 import browser
+import create
 import downloads.models.DownloadEntry
 import jsObject
 
@@ -41,9 +42,68 @@ fun download(
  */
 val getAllDownloads get() = api.search(jsObject())
 
-fun getDownloadsWhere(block: DownloadSearch.() -> Unit) =
-    api.search(DownloadSearch().apply(block).data).then {
-        it.map(::DownloadEntry)
-    }
+/**
+ * Get downloads that matches the criteria
+ */
+fun getDownloadsWhere(block: DownloadSearch.() -> Unit) = api.search(DownloadSearch.getQuery(block))
+    .then { it.map(::DownloadEntry) }
 
+/**
+ * Retrieves an icon for the specified download.
+ */
+fun getDownloadFileIcon(id: Int, size: Int = 32) = api.getFileIcon(id, create { this.size = size })
 
+/**
+ * Erases matching DownloadItems from the browser's download history, without deleting the downloaded files from disk.
+ */
+fun eraseDownloadsWhere(block: DownloadSearch.() -> Unit) = api.erase(DownloadSearch.getQuery(block))
+
+/**
+ * Pauses a download.
+ */
+fun pauseDownload(id: Int) = api.pause(id)
+
+/**
+ * Resumes a paused download.
+ */
+fun resumeDownload(id: Int) = api.resume(id)
+
+/**
+ * Cancels a download.
+ */
+fun cancelDownload(id: Int) = api.cancel(id)
+
+/**
+ * Opens the downloaded file with its associated application.
+ */
+fun openDownload(id: Int) = api.open(id)
+
+/**
+ * Opens the platform's file manager application to show the downloaded file in its containing folder.
+ */
+fun showDownload(id: Int) = api.show(id)
+
+/**
+ *     Opens the platform's file manager application to show the default downloads folder.
+ */
+fun showDownloadDefaultFolder() = api.showDefaultFolder()
+
+/**
+ * Removes a downloaded file from disk, but not from the browser's download history.
+ */
+fun removeDownloadFile(id: Int) = api.removeFile(id)
+
+/**
+ * Prompts the user to accept or cancel a dangerous download.
+ */
+fun acceptDownloadDanger(id: Int) = api.acceptDanger(id)
+
+/**
+ * Initiates dragging the downloaded file to another application.
+ */
+fun dragDownload(id: Int) = api.drag(id)
+
+/**
+ * Enables or disables the gray shelf at the bottom of every window associated with the current browser profile. The shelf will be disabled as long as at least one extension has disabled it.
+ */
+fun setDownloadSelfEnabled(enabled: Boolean) = api.setSelfEnabled(enabled)
