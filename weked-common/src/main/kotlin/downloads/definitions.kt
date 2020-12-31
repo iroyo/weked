@@ -1,5 +1,9 @@
 package downloads
 
+import BooleanDelta
+import DoubleDelta
+import StringDelta
+
 typealias DownloadTime = Any
 
 external interface Header {
@@ -92,3 +96,35 @@ external interface DownloadQuery :
 external interface FileIconOptions {
     var size: Int?
 }
+
+external interface DangerDelta {
+    var danger: StringDelta?
+}
+
+external interface StateDelta {
+    var state: StringDelta?
+}
+
+external interface ErrorDelta {
+    var error: StringDelta?
+}
+
+external interface DownloadDeltaBase {
+    val id: Int
+    var url: StringDelta?
+    var mime: StringDelta?
+    var filename: StringDelta?
+    var fileSize: DoubleDelta?
+    var startTime: StringDelta?
+    var endTime: StringDelta?
+    var canResume: BooleanDelta?
+    var paused: BooleanDelta?
+    var totalBytes: DoubleDelta?
+    var exists: BooleanDelta?
+}
+
+external interface DownloadDelta:
+    DownloadDeltaBase,
+    StateDelta,
+    ErrorDelta,
+    DangerDelta

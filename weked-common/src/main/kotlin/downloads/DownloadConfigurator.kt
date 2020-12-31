@@ -1,7 +1,7 @@
 package downloads
 
 import create
-import downloads.models.ConflictAction
+import downloads.types.ConflictAction
 import isFirefox
 import mapToArray
 

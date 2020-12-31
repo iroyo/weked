@@ -1,8 +1,13 @@
 package downloads
 
+import SingleParameterCallback
 import kotlin.js.Promise
 
 external class Downloads {
+    val onChanged: SingleParameterCallback<DownloadDelta>
+    val onCreated: SingleParameterCallback<DownloadItem>
+    val onErased: SingleParameterCallback<Int>
+
     fun download(options: DownloadOptions): Promise<Int>
     fun search(options: DownloadQuery): Promise<Array<DownloadItem>>
     fun getFileIcon(id: Int, options: FileIconOptions?): Promise<String>
@@ -15,7 +20,4 @@ external class Downloads {
     fun showDefaultFolder()
     fun removeFile(id: Int): Promise<Unit>
     fun acceptDanger(id: Int): Promise<Unit>
-    fun drag(id: Int)
-    fun setSelfEnabled(enabled: Boolean)
-    
 }

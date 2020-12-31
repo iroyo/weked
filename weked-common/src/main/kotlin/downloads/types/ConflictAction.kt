@@ -1,4 +1,4 @@
-package downloads.models
+package downloads.types
 
 enum class ConflictAction {
     UNIQUIFY,

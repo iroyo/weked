@@ -1,11 +1,29 @@
 package downloads
 
+import SingleMapListener
 import browser
 import create
 import downloads.models.DownloadEntry
+import downloads.models.DownloadEntryDelta
 import jsObject
 
 private val api = browser.downloads
+
+/**
+ * Fires with the downloadId when a download is erased from history.
+ */
+val onDownloadErased = api.onErased
+
+/**
+ * Fires with the DownloadItem object when a download begins.
+ */
+val onDownloadCreated = SingleMapListener(api.onCreated, ::DownloadEntry)
+
+/**
+ * he onChanged() event of the downloads API is fired when any of a downloads DownloadItem's properties changes
+ * * (except for bytesReceived)
+ */
+val onDownloadChanged = SingleMapListener(api.onChanged, ::DownloadEntryDelta)
 
 private fun download(
     method: String,
@@ -97,13 +115,3 @@ fun removeDownloadFile(id: Int) = api.removeFile(id)
  * Prompts the user to accept or cancel a dangerous download.
  */
 fun acceptDownloadDanger(id: Int) = api.acceptDanger(id)
-
-/**
- * Initiates dragging the downloaded file to another application.
- */
-fun dragDownload(id: Int) = api.drag(id)
-
-/**
- * Enables or disables the gray shelf at the bottom of every window associated with the current browser profile. The shelf will be disabled as long as at least one extension has disabled it.
- */
-fun setDownloadSelfEnabled(enabled: Boolean) = api.setSelfEnabled(enabled)

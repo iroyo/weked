@@ -2,6 +2,9 @@ package downloads.models
 
 import downloads.DownloadItem
 import downloads.DownloadItemBase
+import downloads.types.DangerType
+import downloads.types.InterruptReason
+import downloads.types.State
 import enumFrom
 
 class DownloadEntry(item: DownloadItem) : DownloadItemBase by item {

@@ -1,8 +1,8 @@
 package downloads
 
-import downloads.models.DangerType
-import downloads.models.InterruptReason
-import downloads.models.State
+import downloads.types.DangerType
+import downloads.types.InterruptReason
+import downloads.types.State
 import jsObject
 import kotlin.js.Date
 

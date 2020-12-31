@@ -1,4 +1,4 @@
-import examples.testSearchDownload
+import examples.testDrag
 import kotlinx.browser.document
 import kotlinx.html.button
 import kotlinx.html.div
@@ -10,7 +10,7 @@ fun main() {
 
         button {
             +"Click ME"
-            onClickFunction = { testSearchDownload() }
+            onClickFunction = { testDrag() }
         }
     }
 }
