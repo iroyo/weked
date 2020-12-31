@@ -3,6 +3,7 @@ import commands.FirefoxCommands
 import containers.Containers
 import devtools.FirefoxDevTools
 import dns.Dns
+import find.Find
 import portal.CaptivePortal
 import settings.FirefoxBrowserSettings
 import sidebar.Sidebar
@@ -17,5 +18,6 @@ external class Firefox : Browser {
     val contextualIdentities: Containers
     val captivePortal: CaptivePortal
     val sidebarAction: Sidebar
+    val find: Find
     val dns: Dns
 }
