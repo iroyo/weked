@@ -2,18 +2,19 @@ package windows
 
 import SingleParameterCallback
 import browser
+import create
 import jsObject
 import names
 import windows.models.*
 
 private val api = browser.windows
 
-private fun createGetProperties(populateTabs: Boolean, types: Array<String>? = null) = jsObject<GetProperties>().apply {
+private fun createGetProperties(populateTabs: Boolean, types: Array<String>? = null) = create<GetProperties> {
     populate = populateTabs
     if (!windowTypes.isNullOrEmpty()) windowTypes = types
 }
 
-private fun createEventFilter(windowMode: Array<out WindowMode>) = jsObject<EventFilter>().apply {
+private fun createEventFilter(windowMode: Array<out WindowMode>) = create<EventFilter> {
     windowTypes = windowMode.names
 }
 
