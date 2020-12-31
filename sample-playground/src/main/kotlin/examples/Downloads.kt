@@ -11,12 +11,10 @@ fun testDownload() {
 }
 
 fun testSearchDownload() {
-    val downloadsWhere = getDownloadsWhere {
+    getDownloadsWhere {
+        id = 1
         limit = 10
-        exists = true
+    }.then {
+        console.log(it.first())
     }
-    console.log(downloadsWhere.limit)
-    console.log(downloadsWhere.exists)
-    console.log(downloadsWhere.data.limit)
-    console.log(downloadsWhere.data.exists)
 }

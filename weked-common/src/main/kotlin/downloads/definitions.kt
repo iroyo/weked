@@ -32,29 +32,33 @@ external interface DownloadDanger {
 }
 
 external interface DownloadCommon {
-    var id: Int?
-    var url: String?
-    var filename: String?
-    var mime: String?
-    var startTime: String
+    var id: Int
+    var url: String
+    var mime: String
+    var filename: String
+    var fileSize: Float
     var endTime: String?
-    var paused: Boolean?
-    var bytesReceived: Float?
-    var totalBytes: Float?
-    var fileSize: Float?
-    var exists: Boolean?
+    var startTime: String?
+    var totalBytes: Float
+    var bytesReceived: Float
+    var paused: Boolean
+    var exists: Boolean
+}
+
+external interface ExtensionInformation {
+    val byExtensionId: String?
+    val byExtensionName: String?
 }
 
 external interface DownloadItemBase : DownloadCommon {
-    var referrer: String
-    var incognito: Boolean
-    var canResume: Boolean
-    var byExtensionId: String?
-    var byExtensionName: String?
-    var estimatedEndTime: String?
+    val referrer: String
+    val incognito: Boolean
+    val canResume: Boolean
+    val estimatedEndTime: String?
 }
 
 external interface DownloadItem :
+    ExtensionInformation,
     DownloadItemBase,
     DownloadState,
     DownloadError,
@@ -70,11 +74,11 @@ external interface DownloadTimeRange {
 external interface DownloadQueryCommon : DownloadCommon {
     var query: Array<String>?
     var orderBy: Array<String>?
-    var totalBytesGreater: Float?
-    var totalBytesLess: Float?
+    var totalBytesGreater: Float
+    var totalBytesLess: Float
     var filenameRegex: String?
     var urlRegex: String?
-    var limit: Int?
+    var limit: Int
 }
 
 external interface DownloadQuery :

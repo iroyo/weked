@@ -1,8 +1,7 @@
-package downloads.models
+package downloads
 
 import create
-import downloads.DownloadOptions
-import downloads.Header
+import downloads.models.ConflictAction
 import isFirefox
 import mapToArray
 

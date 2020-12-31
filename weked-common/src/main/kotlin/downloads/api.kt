@@ -1,8 +1,7 @@
 package downloads
 
 import browser
-import downloads.models.DownloadConfigurator
-import downloads.models.DownloadSearch
+import downloads.models.DownloadEntry
 import jsObject
 
 private val api = browser.downloads
@@ -43,6 +42,8 @@ fun download(
 val getAllDownloads get() = api.search(jsObject())
 
 fun getDownloadsWhere(block: DownloadSearch.() -> Unit) =
-    api.search(DownloadSearch().apply(block).data)
+    api.search(DownloadSearch().apply(block).data).then {
+        it.map(::DownloadEntry)
+    }
 
 

@@ -7,10 +7,10 @@ import kotlinx.html.js.onClickFunction
 
 fun main() {
     document.body!!.append.div {
-        testSearchDownload()
+
         button {
             +"Click ME"
-            onClickFunction = {}
+            onClickFunction = { testSearchDownload() }
         }
     }
 }
