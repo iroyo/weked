@@ -5,7 +5,7 @@
 <details open>
 <summary>Missing</summary>
 <ul>
-    <li>add <a target="_blank" href="https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/events/Rule">Rule</a> and <a target="_blank" href="https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/events/UrlFilter">UrlFilter</a> in Events</li>
+    <li>add <a target="_blank" rel="developer.mozilla" href="https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/events/Rule">Rule</a> and <a target="_blank" rel="developer.mozilla" href="https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/events/UrlFilter">UrlFilter</a> in Events</li>
 </ul>
 
 </details>
