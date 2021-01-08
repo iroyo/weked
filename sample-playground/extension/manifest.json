@@ -9,6 +9,7 @@
   "permissions": [
     "find",
     "tabs",
+    "history",
     "alarms",
     "tabHide",
     "cookies",
