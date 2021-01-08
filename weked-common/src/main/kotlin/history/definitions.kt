@@ -1,12 +1,5 @@
 package history
 
-external interface SearchOptions {
-    var text: String
-    var endTime: Any?
-    var startTime: Any?
-    var maxResults: Int?
-}
-
 external interface UrlProvider {
     var url: String
 }
@@ -15,6 +8,13 @@ external interface RangeProvider {
     var startTime: Any
     var endTime: Any
 }
+
+external interface SearchQuery {
+    var text: String
+    var maxResults: Int
+}
+
+external interface SearchOptions: SearchQuery, RangeProvider
 
 external interface TitleChange {
     val id: String
@@ -47,6 +47,5 @@ external interface UrlOptions {
     var url: String
     var title: String?
     var transition: String?
-    var visitTime: Float?
-
+    var visitTime: Any?
 }

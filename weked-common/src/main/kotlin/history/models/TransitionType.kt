@@ -1,4 +1,4 @@
-package history
+package history.models
 
 enum class TransitionType {
     LINK,

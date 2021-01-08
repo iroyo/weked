@@ -1,4 +1,4 @@
-import examples.findWord
+import examples.testGetHistory
 import kotlinx.browser.document
 import kotlinx.html.button
 import kotlinx.html.div
@@ -10,7 +10,7 @@ fun main() {
 
         button {
             +"Click ME"
-            onClickFunction = { findWord("conocimiento") }
+            onClickFunction = { testGetHistory() }
         }
     }
 }
