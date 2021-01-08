@@ -1,4 +1,4 @@
-import examples.testDrag
+import examples.findWord
 import kotlinx.browser.document
 import kotlinx.html.button
 import kotlinx.html.div
@@ -10,7 +10,7 @@ fun main() {
 
         button {
             +"Click ME"
-            onClickFunction = { testDrag() }
+            onClickFunction = { findWord("conocimiento") }
         }
     }
 }

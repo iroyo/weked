@@ -1,5 +1,11 @@
 package find
 
+external interface HighlightOptions {
+    var tabId: Int
+    var rangeIndex: Int
+    var noScroll: Boolean
+}
+
 external interface FindOptions {
     var tabId: Int
     var entireWord: Boolean
